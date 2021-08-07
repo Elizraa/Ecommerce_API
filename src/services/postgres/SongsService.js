@@ -13,7 +13,7 @@ class SongsService {
   async addSong({
     title, year, performer, genre, duration,
   }) {
-    const id = nanoid(16);
+    const id = `song-${nanoid(16)}`;
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
 
@@ -43,7 +43,7 @@ class SongsService {
     };
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan');
     }
 
