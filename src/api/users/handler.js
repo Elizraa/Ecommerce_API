@@ -1,5 +1,3 @@
-const ClientError = require('../../exceptions/ClientError');
-
 class UsersHandler {
   constructor(service, validator) {
     this._service = service;
@@ -26,27 +24,11 @@ class UsersHandler {
       response.code(201);
       return response;
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return error;
     }
   }
 
-  async getUserByIdHandler(request, h) {
+  async getUserByIdHandler(request) {
     try {
       const { id } = request.params;
       const user = await this._service.getUserById(id);
@@ -57,27 +39,11 @@ class UsersHandler {
         },
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return error;
     }
   }
 
-  async getUsersByUsernameHandler(request, h) {
+  async getUsersByUsernameHandler(request) {
     try {
       const { username = '' } = request.query;
       const users = await this._service.getUsersByUsername(username);
@@ -88,23 +54,7 @@ class UsersHandler {
         },
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return error;
     }
   }
 }
