@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
+const path = require('path');
 
 const ClientError = require('./exceptions/ClientError');
 
@@ -35,12 +37,30 @@ const PlaylistsValidator = require('./validator/playlists/playlist/index');
 const songPlaylist = require('./api/playlists/songs/index');
 const SongPlaylistValidator = require('./validator/playlists/songs/index');
 
+// Exports
+const _exports = require('./api/exports');
+const ProducerService = require('./services/rabbitmq/ProducerService');
+const ExportsValidator = require('./validator/exports');
+
+// uploads
+const uploads = require('./api/uploads');
+const StorageService = require('./services/storage/StorageService');
+const UploadsValidator = require('./validator/uploads');
+
+// aws
+// const StorageService = require('./services/S3/StorageService');
+
+// cache
+const CacheService = require('./services/redis/CacheService');
+
 const init = async () => {
-  const collaborationsService = new CollaborationsService();
-  const songsService = new SongsService();
+  const cacheService = new CacheService();
+  const collaborationsService = new CollaborationsService(cacheService);
+  const songsService = new SongsService(cacheService);
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
-  const playlistsService = new PlaylistsService(collaborationsService);
+  const playlistsService = new PlaylistsService(collaborationsService, cacheService);
+  const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -56,6 +76,9 @@ const init = async () => {
   await server.register([
     {
       plugin: Jwt,
+    },
+    {
+      plugin: Inert,
     },
   ]);
 
@@ -122,6 +145,21 @@ const init = async () => {
         validator: CollaborationsValidator,
       },
     },
+    {
+      plugin: _exports,
+      options: {
+        service: ProducerService,
+        validator: ExportsValidator,
+        playlistsService,
+      },
+    },
+    {
+      plugin: uploads,
+      options: {
+        service: storageService,
+        validator: UploadsValidator,
+      },
+    },
   ]);
 
   server.ext('onPreResponse', (request, h) => {
@@ -132,13 +170,14 @@ const init = async () => {
       return response.continue || response;
     }
 
-    if (response instanceof ClientError || response.output.statusCode === 401) {
+    if (response instanceof ClientError || response.output.statusCode === 401
+      || response.output.statusCode === 413) {
       // membuat response baru dari response toolkit sesuai kebutuhan error handling
       const newResponse = h.response({
         status: 'fail',
         message: response.message,
       });
-      if (response.output.statusCode === 401) {
+      if (response.output.statusCode === 401 || response.output.statusCode === 413) {
         newResponse.code(response.output.statusCode);
       } else {
         newResponse.code(response.statusCode);
@@ -150,6 +189,7 @@ const init = async () => {
       status: 'error',
       message: 'Maaf, terjadi kegagalan pada server kami.',
     });
+    console.log(response.output.statusCode);
     newResponse.code(500);
     console.error(response);
     return newResponse;
