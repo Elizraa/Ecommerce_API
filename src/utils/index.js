@@ -1,22 +1,20 @@
 /* eslint-disable camelcase */
 const mapDBToModel = ({
   id,
-  title,
-  year,
-  performer,
-  genre,
-  duration,
-  inserted_at,
-  updated_at,
+  nama,
+  description,
+  category,
+  price,
+  stock,
+  seller_id,
 }) => ({
   id,
-  title,
-  year,
-  performer,
-  genre,
-  duration,
-  insertedAt: inserted_at,
-  updatedAt: updated_at,
+  nama,
+  description,
+  category,
+  price,
+  stock,
+  sellerId: seller_id,
 });
 
 module.exports = { mapDBToModel };

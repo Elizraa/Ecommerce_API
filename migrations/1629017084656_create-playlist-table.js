@@ -3,26 +3,32 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-  pgm.createTable('playlists', {
+  pgm.createTable('orders', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    name: {
+    customer_id: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
-    owner: {
+    product_id: {
       type: 'VARCHAR(50)',
+      notNull: true,
+    },
+    quantity: {
+      type: 'integer',
+      notNull: true,
+    },
+    status: {
+      type: 'boolean',
       notNull: true,
     },
   });
-
-  pgm.addConstraint('playlists', 'unique_name_and_owner', 'UNIQUE(name, owner)');
-
-  pgm.addConstraint('playlists', 'fk_playlists.owner_users.id', 'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('orders', 'fk_orders.customer_id_users.id', 'FOREIGN KEY(customer_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('orders', 'fk_orders.product_id_pruducts.id', 'FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('playlists');
+  pgm.dropTable('orders');
 };

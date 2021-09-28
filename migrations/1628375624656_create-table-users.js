@@ -3,27 +3,39 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-  pgm.createTable('users', {
+  pgm.createTable('products', {
     id: {
-      type: 'VARCHAR(50)',
+      type: 'varchar(50)',
       primaryKey: true,
     },
-    username: {
-      type: 'VARCHAR(50)',
-      unique: true,
+    name: {
+      type: 'text',
       notNull: true,
     },
-    password: {
-      type: 'TEXT',
+    description: {
+      type: 'text',
       notNull: true,
     },
-    fullname: {
-      type: 'TEXT',
+    category: {
+      type: 'text',
+      notNull: true,
+    },
+    price: {
+      type: 'integer',
+      notNull: true,
+    },
+    stock: {
+      type: 'integer',
+      notNull: true,
+    },
+    seller_id: {
+      type: 'text',
       notNull: true,
     },
   });
+  pgm.addConstraint('products', 'fk_products.seller_id_users.id', 'FOREIGN KEY(seller_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('users');
+  pgm.dropTable('products');
 };

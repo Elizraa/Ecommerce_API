@@ -3,14 +3,14 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const Inert = require('@hapi/inert');
-const path = require('path');
+// const path = require('path');
 
 const ClientError = require('./exceptions/ClientError');
 
 // songs
-const songs = require('./api/songs');
-const SongsService = require('./services/postgres/SongsService');
-const SongsValidator = require('./validator/songs');
+const products = require('./api/products');
+const ProductsService = require('./services/postgres/ProductsService');
+const ProductsValidator = require('./validator/products');
 
 // users
 const users = require('./api/users');
@@ -23,44 +23,14 @@ const AuthenticationsService = require('./services/postgres/AuthenticationsServi
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
-// collaborations
-const collaborations = require('./api/collaborations');
-const CollaborationsService = require('./services/postgres/CollaborationsService');
-const CollaborationsValidator = require('./validator/collaborations');
-
-// playlist
-const playlists = require('./api/playlists/index');
-const PlaylistsService = require('./services/postgres/PlaylistsService');
-const PlaylistsValidator = require('./validator/playlists/playlist/index');
-
-// song in playlist
-const songPlaylist = require('./api/playlists/songs/index');
-const SongPlaylistValidator = require('./validator/playlists/songs/index');
-
-// Exports
-const _exports = require('./api/exports');
-const ProducerService = require('./services/rabbitmq/ProducerService');
-const ExportsValidator = require('./validator/exports');
-
-// uploads
-const uploads = require('./api/uploads');
-const StorageService = require('./services/storage/StorageService');
-const UploadsValidator = require('./validator/uploads');
-
 // aws
 // const StorageService = require('./services/S3/StorageService');
 
-// cache
-const CacheService = require('./services/redis/CacheService');
-
 const init = async () => {
-  const cacheService = new CacheService();
-  const collaborationsService = new CollaborationsService(cacheService);
-  const songsService = new SongsService(cacheService);
+  const productsService = new ProductsService();
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
-  const playlistsService = new PlaylistsService(collaborationsService, cacheService);
-  const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
+  // const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -101,24 +71,10 @@ const init = async () => {
 
   await server.register([
     {
-      plugin: playlists,
+      plugin: products,
       options: {
-        playlistsService,
-        validator: PlaylistsValidator,
-      },
-    },
-    {
-      plugin: songPlaylist,
-      options: {
-        playlistsService,
-        validator: SongPlaylistValidator,
-      },
-    },
-    {
-      plugin: songs,
-      options: {
-        service: songsService,
-        validator: SongsValidator,
+        service: productsService,
+        validator: ProductsValidator,
       },
     },
     {
@@ -137,29 +93,13 @@ const init = async () => {
         validator: AuthenticationsValidator,
       },
     },
-    {
-      plugin: collaborations,
-      options: {
-        collaborationsService,
-        playlistsService,
-        validator: CollaborationsValidator,
-      },
-    },
-    {
-      plugin: _exports,
-      options: {
-        service: ProducerService,
-        validator: ExportsValidator,
-        playlistsService,
-      },
-    },
-    {
-      plugin: uploads,
-      options: {
-        service: storageService,
-        validator: UploadsValidator,
-      },
-    },
+    // {
+    //   plugin: uploads,
+    //   options: {
+    //     service: storageService,
+    //     validator: UploadsValidator,
+    //   },
+    // },
   ]);
 
   server.ext('onPreResponse', (request, h) => {
