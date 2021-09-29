@@ -14,6 +14,7 @@ class UsersService {
     name, email, phoneNumber, seller, password,
   }) {
     await this.verifyNewName(name);
+    await this.verifyNewEmail(email);
     const id = `user-${nanoid(16)}`;
     const hashedPassword = await bcrypt.hash(password, 10);
     const query = {
@@ -42,7 +43,20 @@ class UsersService {
     const result = await this._pool.query(query);
 
     if (result.rows.length > 0) {
-      throw new InvariantError('Gagal menambahkan user. Name sudah digunakan.');
+      throw new InvariantError('Gagal menambahkan, username sudah digunakan.');
+    }
+  }
+
+  async verifyNewEmail(email) {
+    const query = {
+      text: 'SELECT email FROM users WHERE email = $1',
+      values: [email],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rows.length > 0) {
+      throw new InvariantError('Gagal menambahkan, email sudah digunakan.');
     }
   }
 
@@ -61,14 +75,26 @@ class UsersService {
     return result.rows[0];
   }
 
+  async deleteUserByEmail(email, password) {
+    await this.verifyUserCredential(email, password);
+    const query = {
+      text: 'DELETE FROM users WHERE email = $1 returning id',
+      values: [email],
+    };
+    const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new NotFoundError('User tidak ditemukan');
+    }
+  }
+
   async verifyUserCredential(email, password) {
     const query = {
       text: 'SELECT id, password, seller FROM users WHERE email = $1',
       values: [email],
     };
-
+    console.log(email);
     const result = await this._pool.query(query);
-
     if (!result.rows.length) {
       throw new AuthenticationError('Kredensial yang Anda berikan salah');
     }
