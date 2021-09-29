@@ -17,6 +17,10 @@ exports.up = (pgm) => {
       unique: true,
       notNull: true,
     },
+    phone_number: {
+      type: 'VARCHAR(50)',
+      notNull: true,
+    },
     seller: {
       type: 'boolean',
       notNull: true,

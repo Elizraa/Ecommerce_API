@@ -11,9 +11,9 @@ class UsersHandler {
     try {
       this._validator.validateUserPayload(request.payload);
       const {
-        name, email, phoneNumber, seller, password,
+        name, email, phone_number: phoneNumber, seller, password,
       } = request.payload;
-
+      console.log(phoneNumber);
       const userId = await this._service.addUser({
         name, email, phoneNumber, seller, password,
       });
