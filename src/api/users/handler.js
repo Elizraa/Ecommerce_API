@@ -6,16 +6,17 @@ class UsersHandler {
     this.postUserHandler = this.postUserHandler.bind(this);
     this.getUserByIdHandler = this.getUserByIdHandler.bind(this);
     this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
+    this.getUsersByUsernameHandler = this.getUsersByUsernameHandler.bind(this);
   }
 
   async postUserHandler(request, h) {
     try {
       this._validator.validateUserPayload(request.payload);
       const {
-        name, email, phone_number: phoneNumber, seller, password,
+        name, email, phone_number: phoneNumber, password,
       } = request.payload;
       const userId = await this._service.addUser({
-        name, email, phoneNumber, seller, password,
+        name, email, phoneNumber, password,
       });
 
       const response = h.response({
@@ -49,8 +50,8 @@ class UsersHandler {
 
   async getUsersByUsernameHandler(request) {
     try {
-      const { username = '' } = request.query;
-      const users = await this._service.getUsersByUsername(username);
+      const { email = '' } = request.query;
+      const users = await this._service.getUsersByName(email);
       return {
         status: 'success',
         data: {

@@ -26,7 +26,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     saldo: {
-      type: 'integer',
+      type: 'float',
       notNull: true,
     },
   });
