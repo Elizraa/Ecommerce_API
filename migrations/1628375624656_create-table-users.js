@@ -24,16 +24,16 @@ exports.up = (pgm) => {
       type: 'integer',
       notNull: true,
     },
-    stock: {
-      type: 'integer',
+    on_sell: {
+      type: 'boolean',
       notNull: true,
     },
-    seller_id: {
-      type: 'text',
+    user_id: {
+      type: 'VARCHAR(50)',
       notNull: true,
     },
   });
-  pgm.addConstraint('products', 'fk_products.seller_id_users.id', 'FOREIGN KEY(seller_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('products', 'fk_products.user_id_users.id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {

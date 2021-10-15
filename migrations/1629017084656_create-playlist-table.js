@@ -8,7 +8,19 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    customer_id: {
+    status: {
+      type: 'boolean',
+      notNull: true,
+    },
+    date: {
+      type: 'text',
+      notNull: true,
+    },
+    userbuyer_id: {
+      type: 'VARCHAR(50)',
+      notNull: true,
+    },
+    userseller_id: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
@@ -16,16 +28,10 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
     },
-    quantity: {
-      type: 'integer',
-      notNull: true,
-    },
-    status: {
-      type: 'boolean',
-      notNull: true,
-    },
+
   });
-  pgm.addConstraint('orders', 'fk_orders.customer_id_users.id', 'FOREIGN KEY(customer_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('orders', 'fk_orders.customer_id_users.id', 'FOREIGN KEY(userbuyer_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('orders', 'fk_orders.customer_id_users.id', 'FOREIGN KEY(userseller_id) REFERENCES users(id) ON DELETE CASCADE');
   pgm.addConstraint('orders', 'fk_orders.product_id_pruducts.id', 'FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE');
 };
 

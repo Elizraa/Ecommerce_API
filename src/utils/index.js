@@ -6,7 +6,8 @@ const mapDBToModel = ({
   category,
   price,
   stock,
-  seller_id,
+  on_sell,
+  user_id,
 }) => ({
   id,
   nama,
@@ -14,7 +15,8 @@ const mapDBToModel = ({
   category,
   price,
   stock,
-  sellerId: seller_id,
+  onSell: on_sell,
+  sellerId: user_id,
 });
 
 module.exports = { mapDBToModel };

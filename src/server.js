@@ -7,7 +7,7 @@ const Inert = require('@hapi/inert');
 
 const ClientError = require('./exceptions/ClientError');
 
-// songs
+// products
 const products = require('./api/products');
 const ProductsService = require('./services/postgres/ProductsService');
 const ProductsValidator = require('./validator/products');
@@ -23,14 +23,16 @@ const AuthenticationsService = require('./services/postgres/AuthenticationsServi
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
-// aws
-// const StorageService = require('./services/S3/StorageService');
+// uploads
+const uploads = require('./api/uploads');
+const StorageService = require('./services/storage/StorageService');
+const UploadsValidator = require('./validator/uploads');
 
 const init = async () => {
   const productsService = new ProductsService();
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
-  // const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
+  const storageService = new StorageService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -53,7 +55,7 @@ const init = async () => {
   ]);
 
   // mendefinisikan strategy autentikasi jwt
-  server.auth.strategy('openmusic_jwt', 'jwt', {
+  server.auth.strategy('ecommerce_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
@@ -93,13 +95,13 @@ const init = async () => {
         validator: AuthenticationsValidator,
       },
     },
-    // {
-    //   plugin: uploads,
-    //   options: {
-    //     service: storageService,
-    //     validator: UploadsValidator,
-    //   },
-    // },
+    {
+      plugin: uploads,
+      options: {
+        service: storageService,
+        validator: UploadsValidator,
+      },
+    },
   ]);
 
   server.ext('onPreResponse', (request, h) => {

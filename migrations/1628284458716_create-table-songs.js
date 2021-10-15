@@ -8,25 +8,25 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    name: {
-      type: 'TEXT',
-      notNull: true,
-    },
     email: {
       type: 'VARCHAR(50)',
       unique: true,
+      notNull: true,
+    },
+    name: {
+      type: 'TEXT',
       notNull: true,
     },
     phone_number: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
-    seller: {
-      type: 'boolean',
-      notNull: true,
-    },
     password: {
       type: 'TEXT',
+      notNull: true,
+    },
+    saldo: {
+      type: 'integer',
       notNull: true,
     },
   });

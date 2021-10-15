@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
 const UserPayloadSchema = Joi.object({
-  name: Joi.string().required(),
   email: Joi.string().email({ tlds: true }).required(),
+  name: Joi.string().required(),
   phone_number: Joi.string().required(),
   seller: Joi.boolean().required(),
   password: Joi.string().required(),

@@ -10,13 +10,13 @@ class ProductsService {
   }
 
   async addProduct({
-    name, description, category, price, stock, sellerId,
+    name, description, category, price, onSell, userId,
   }) {
     const id = `product-${nanoid(16)}`;
 
     const query = {
       text: 'insert into products values($1, $2, $3, $4, $5, $6, $7) returning id',
-      values: [id, name, description, category, price, stock, sellerId],
+      values: [id, name, description, category, price, onSell, userId],
     };
 
     const result = await this._pool.query(query);
@@ -30,6 +30,11 @@ class ProductsService {
 
   async getProducts() {
     const result = await this._pool.query('select * from products');
+    return result.rows.map(mapDBToModel);
+  }
+
+  async getProductsOnSell() {
+    const result = await this._pool.query('select * from products where on_sell');
     return result.rows.map(mapDBToModel);
   }
 
@@ -47,10 +52,10 @@ class ProductsService {
     return result.rows.map(mapDBToModel)[0];
   }
 
-  async getProductBySellerId(sellerId) {
+  async getProductByUserId(UserId) {
     const query = {
-      text: 'select * from products where seller_id = $1',
-      values: [sellerId],
+      text: 'select * from products where user_id = $1',
+      values: [UserId],
     };
     const result = await this._pool.query(query);
 
@@ -64,11 +69,11 @@ class ProductsService {
   }
 
   async editProductById(id, {
-    name, description, category, price, stock,
+    name, description, category, price, onSell,
   }) {
     const query = {
-      text: 'update products set name = $1, description = $2, category = $3, price = $4, stock = $5 where id = $6 returning id',
-      values: [name, description, category, price, stock, id],
+      text: 'update products set name = $1, description = $2, category = $3, price = $4, on_sell = $5 where id = $6 returning id',
+      values: [name, description, category, price, onSell, id],
     };
 
     const result = await this._pool.query(query);
