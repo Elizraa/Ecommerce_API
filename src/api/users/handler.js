@@ -5,15 +5,15 @@ class UsersHandler {
 
     this.postUserHandler = this.postUserHandler.bind(this);
     this.getUserByIdHandler = this.getUserByIdHandler.bind(this);
+    this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
   }
 
   async postUserHandler(request, h) {
     try {
       this._validator.validateUserPayload(request.payload);
       const {
-        name, email, phoneNumber, seller, password,
+        name, email, phone_number: phoneNumber, seller, password,
       } = request.payload;
-
       const userId = await this._service.addUser({
         name, email, phoneNumber, seller, password,
       });
@@ -56,6 +56,19 @@ class UsersHandler {
         data: {
           users,
         },
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async deleteUserByEmailHandler(request) {
+    try {
+      const { email, password } = request.payload;
+      await this._service.deleteUserByEmail(email, password);
+      return {
+        status: 'success',
+        message: 'User berhasil dihapus',
       };
     } catch (error) {
       return error;
