@@ -30,8 +30,8 @@ exports.up = (pgm) => {
     },
 
   });
-  pgm.addConstraint('orders', 'fk_orders.customer_id_users.id', 'FOREIGN KEY(userbuyer_id) REFERENCES users(id) ON DELETE CASCADE');
-  pgm.addConstraint('orders', 'fk_orders.customer_id_users.id', 'FOREIGN KEY(userseller_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('orders', 'fk_orders.buyer_id_users.id', 'FOREIGN KEY(userbuyer_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('orders', 'fk_orders.seller_id_users.id', 'FOREIGN KEY(userseller_id) REFERENCES users(id) ON DELETE CASCADE');
   pgm.addConstraint('orders', 'fk_orders.product_id_pruducts.id', 'FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE');
 };
 
