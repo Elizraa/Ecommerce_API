@@ -2,12 +2,13 @@ const CollaborationsHandler = require('./handler');
 const routes = require('./routes');
 
 module.exports = {
-  name: 'collaborations',
+  name: 'wishlist',
   version: '1.0.0',
-  register: async (server, { collaborationsService, playlistsService, validator }) => {
-    const collaborationsHandler = new CollaborationsHandler(
-      collaborationsService, playlistsService, validator,
+  register: async (server, { service, validator }) => {
+    const wishlistHandler = new CollaborationsHandler(
+      service, validator
     );
-    server.route(routes(collaborationsHandler));
+    server.route(routes(wishlistHandler));
   },
 };
+
