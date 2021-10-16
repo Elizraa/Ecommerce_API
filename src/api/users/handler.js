@@ -50,8 +50,8 @@ class UsersHandler {
 
   async getUsersByUsernameHandler(request) {
     try {
-      const { email = '' } = request.query;
-      const users = await this._service.getUsersByName(email);
+      const { name = '' } = request.query;
+      const users = await this._service.getUsersByName(name);
       return {
         status: 'success',
         data: {
