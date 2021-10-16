@@ -11,13 +11,12 @@ class UsersService {
   }
 
   async addUser({
-    name, email, phoneNumber, password
+    name, email, phoneNumber, password,
   }) {
     await this.verifyNewName(name);
     await this.verifyNewEmail(email);
     const id = `user-${nanoid(16)}`;
     const saldo = Math.random() * 10;
-    saldo.toFixed(2);
     const hashedPassword = await bcrypt.hash(password, 10);
     const query = {
       text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
@@ -29,11 +28,7 @@ class UsersService {
     if (!result.rows.length) {
       throw new InvariantError('User gagal ditambahkan');
     }
-
-    const ids = result.rows[0].id;
-    // const sellers = result.rows[0].seller;
-    // console.log(sellers);
-    return { ids};
+    return result.rows[0].id;
   }
 
   async verifyNewName(name) {
@@ -106,13 +101,13 @@ class UsersService {
     if (!match) {
       throw new AuthenticationError('Kredensial yang Anda berikan salah');
     }
-    return { id };
+    return id;
   }
 
-  async getUsersByName(email) {
+  async getUsersByName(name) {
     const query = {
-      text: 'SELECT id,name, email, phone_number, saldo FROM users WHERE email LIKE $1',
-      values: [`%${email}%`],
+      text: 'SELECT id, name, phone_number, saldo FROM users WHERE name LIKE $1',
+      values: [`%${name}%`],
     };
     const result = await this._pool.query(query);
     return result.rows;

@@ -12,6 +12,11 @@ const products = require('./api/products');
 const ProductsService = require('./services/postgres/ProductsService');
 const ProductsValidator = require('./validator/products');
 
+// orders
+const orders = require('./api/orders');
+const OrdersService = require('./services/postgres/OrdersService');
+const OrdersValidator = require('./validator/orders');
+
 // users
 const users = require('./api/users');
 const UsersService = require('./services/postgres/UsersService');
@@ -33,6 +38,7 @@ const init = async () => {
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
   const storageService = new StorageService();
+  const ordersService = new OrdersService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -100,6 +106,13 @@ const init = async () => {
       options: {
         service: storageService,
         validator: UploadsValidator,
+      },
+    },
+    {
+      plugin: orders,
+      options: {
+        service: ordersService,
+        validator: OrdersValidator,
       },
     },
   ]);

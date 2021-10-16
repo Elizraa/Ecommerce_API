@@ -1,27 +1,27 @@
-class PlaylistsHandler {
+class OrdersHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
 
-    this.postPlaylistHandler = this.postPlaylistHandler.bind(this);
-    this.getPlaylistsHandler = this.getPlaylistsHandler.bind(this);
-    this.deletePlaylistByIdHandler = this.deletePlaylistByIdHandler.bind(this);
+    this.postOrderHandler = this.postOrderHandler.bind(this);
+    this.getOrdersHandler = this.getOrdersHandler.bind(this);
+    this.deleteOrderByIdHandler = this.deleteOrderByIdHandler.bind(this);
   }
 
-  async postPlaylistHandler(request, h) {
+  async postOrderHandler(request, h) {
     try {
-      this._validator.validatePlaylistPayload(request.payload);
+      this._validator.validateOrderPayload(request.payload);
 
       const { name } = request.payload;
       const { id: owner } = request.auth.credentials;
 
-      const playlistId = await this._service.addPlaylist({ name, owner });
+      const orderId = await this._service.addOrder({ name, owner });
 
       const response = h.response({
         status: 'success',
-        message: 'Playlist berhasil ditambahkan',
+        message: 'Order berhasil ditambahkan',
         data: {
-          playlistId,
+          orderId,
         },
       });
       response.code(201);
@@ -31,26 +31,26 @@ class PlaylistsHandler {
     }
   }
 
-  async getPlaylistsHandler(request) {
+  async getOrdersHandler(request) {
     const { id: credentialId } = request.auth.credentials;
-    const playlists = await this._service.getPlaylists(credentialId);
+    const orders = await this._service.getOrders(credentialId);
     return {
       status: 'success',
       data: {
-        playlists,
+        orders,
       },
     };
   }
 
-  async deletePlaylistByIdHandler(request) {
+  async deleteOrderByIdHandler(request) {
     try {
-      const { playlistId } = request.params;
+      const { orderId } = request.params;
       const { id: credentialId } = request.auth.credentials;
-      await this._service.verifyPlaylistOwner(playlistId, credentialId);
-      await this._service.deletePlaylistById(playlistId);
+      await this._service.verifyOrderOwner(orderId, credentialId);
+      await this._service.deleteOrderById(orderId);
       return {
         status: 'success',
-        message: 'Playlist berhasil dihapus',
+        message: 'Order berhasil dihapus',
       };
     } catch (error) {
       return error;
@@ -58,4 +58,4 @@ class PlaylistsHandler {
   }
 }
 
-module.exports = PlaylistsHandler;
+module.exports = OrdersHandler;
