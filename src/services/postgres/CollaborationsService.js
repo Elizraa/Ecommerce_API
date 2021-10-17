@@ -41,7 +41,7 @@ class CollaborationsService {
 
   async getWishlistByUserId(UserId) {
     const query = {
-      text: 'select * from wishlist where user_id = $1',
+      text: 'select * from wishlist w inner join products p on p.id = w.product_id where w.user_id = $1',
       values: [UserId],
     };
     const result = await this._pool.query(query);
