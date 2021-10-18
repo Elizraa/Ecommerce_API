@@ -26,5 +26,5 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('wishlist');
+  // pgm.dropTable('wishlist');
 };
