@@ -25,6 +25,6 @@ exports.up = (pgm) => {
   pgm.addConstraint('wishlist', 'fk_wishlist.user_id_users.id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
-exports.down = () => {
+exports.down = (pgm) => {
   pgm.dropTable('wishlist');
 };
