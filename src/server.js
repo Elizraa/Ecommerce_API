@@ -44,6 +44,7 @@ const init = async () => {
   const authenticationsService = new AuthenticationsService();
   const storageService = new StorageService();
   const ordersService = new OrdersService();
+  const wishlistService = new WishlistService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -127,7 +128,7 @@ const init = async () => {
     {
       plugin: wishlists,
       options: {
-        service: WishlistService,
+        service : wishlistService,
         validator: WishlistValidator,
       },
     },

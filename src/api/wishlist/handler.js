@@ -5,25 +5,27 @@ class WishlistHandler {
 
     this.postWishlistHandler = this.postWishlistHandler.bind(this);
     this.deleteWishlistHandler = this.deleteWishlistHandler.bind(this);
+    this.getWishlistHandler = this.getWishlistHandler.bind(this);
     // this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
-    // this.getUsersByUsernameHandler = this.getUsersByUsernameHandler.bind(this);
-  }
+  //   this.getWishlistByIdHandler = this.getWishlistByIdHandler.bind(this);
+   }
 
   async postWishlistHandler(request, h) {
     try {
-      this._validator.validateUserPayload(request.payload);
+      this._validator.validateCollaborationPayload(request.payload);
+      const { id: credentialId } = request.auth.credentials;
       const {
-        user_id, product_id,
+        productId
       } = request.payload;
-      const userId = await this._service.addWishlist({
-        user_id, product_id,
+      const wishlistId = await this._service.addWishlist({
+        productId,credentialId
       });
 
       const response = h.response({
         status: 'success',
         message: 'Wishlist berhasil ditambahkan',
         data: {
-          userId,
+          wishlistId,
         },
       });
       response.code(201);
@@ -35,8 +37,8 @@ class WishlistHandler {
 
   async deleteWishlistHandler(request) {
     try {
-      const { user_id, product_id } = request.payload;
-      await this._service.deleteWishlist(user_id, product_id);
+      const { id } = request.params;
+      await this._service.deleteWishlist(id);
       return {
         status: 'success',
         message: 'Wishlist berhasil dihapus',
@@ -46,21 +48,28 @@ class WishlistHandler {
     }
   }
 
-  async getWishlistByIdHandler(request) {
+
+
+
+  
+  async getWishlistHandler() {
     try {
-      const { id } = request.params;
-      const product = await this._service.getWishlistById(id);
+      const wishlist = await this._service.getWishlist();
       return {
         status: 'success',
         data: {
-          product,
+          wishlist,
         },
       };
     } catch (error) {
       return error;
     }
   }
+  
+ 
 }
+
+
 
 module.exports = WishlistHandler;
 

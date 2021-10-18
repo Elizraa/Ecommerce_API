@@ -9,7 +9,7 @@ const routes = (handler) => [
   },
   {
     method: 'DELETE',
-    path: '/wishlists',
+    path: '/wishlists/{id}',
     handler: handler.deleteWishlistHandler,
     options: {
       auth: 'ecommerce_jwt',
@@ -18,7 +18,7 @@ const routes = (handler) => [
   {
     method: 'GET',
     path: '/wishlists',
-    handler: handler.getWishlistByIdHandler,
+    handler: handler.getWishlistHandler,
     options: {
       auth: 'ecommerce_jwt',
     },

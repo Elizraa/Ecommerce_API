@@ -9,14 +9,14 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    user_id: {
-      type: 'VARCHAR(50)',
-      notNull: true,
-    },
     product_id: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
+    user_id: {
+      type: 'VARCHAR(50)',
+      notNull: true,
+    }
   });
 
   pgm.addConstraint('wishlist', 'unique_playlist_id_and_user_id', 'UNIQUE(user_id, product_id)');
