@@ -13,7 +13,7 @@ class WishlistHandler {
     try {
       this._validator.validateUserPayload(request.payload);
       const {
-        user_id, product_id
+        user_id, product_id,
       } = request.payload;
       const userId = await this._service.addWishlist({
         user_id, product_id,
@@ -63,7 +63,6 @@ class WishlistHandler {
 }
 
 module.exports = WishlistHandler;
-
 
 // class CollaborationsHandler {
 //   constructor(collaborationsService, playlistsService, validator) {
@@ -120,7 +119,3 @@ module.exports = WishlistHandler;
 // }
 
 // module.exports = CollaborationsHandler;
-
-//
-
-
