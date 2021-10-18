@@ -11,17 +11,11 @@ const routes = (handler) => [
     method: 'GET',
     path: '/products',
     handler: handler.getProductsHandler,
-    options: {
-      auth: 'ecommerce_jwt',
-    },
   },
   {
     method: 'GET',
     path: '/products/{id}',
     handler: handler.getProductByIdHandler,
-    options: {
-      auth: 'ecommerce_jwt',
-    },
   },
   {
     method: 'PUT',
@@ -40,12 +34,9 @@ const routes = (handler) => [
     },
   },
   {
-    method: 'DELETE',
+    method: 'GET',
     path: '/products/seller/{id}',
     handler: handler.getProductsBySellerIdHandler,
-    options: {
-      auth: 'ecommerce_jwt',
-    },
   },
   {
     method: 'POST',
