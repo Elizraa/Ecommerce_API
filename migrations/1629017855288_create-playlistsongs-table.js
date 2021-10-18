@@ -24,5 +24,5 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  // pgm.dropTable('productimage');
+  pgm.dropTable('productimage');
 };
