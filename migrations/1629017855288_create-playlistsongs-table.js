@@ -21,6 +21,6 @@ exports.up = () => {
 
 };
 
-exports.down = (pgm) => {
-  pgm.dropTable('productimage');
+exports.down = () => {
+  // pgm.dropTable('productimage');
 };
