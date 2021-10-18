@@ -29,6 +29,12 @@ exports.up = (pgm) => {
       type: 'float',
       notNull: true,
     },
+    profile_image: {
+      type: 'text',
+    },
+    cover_image: {
+      type: 'text',
+    },
   });
 };
 

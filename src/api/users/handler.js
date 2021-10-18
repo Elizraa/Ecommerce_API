@@ -1,12 +1,16 @@
 class UsersHandler {
-  constructor(service, validator) {
+  constructor(service, serviceImage, validator, validatorImage) {
     this._service = service;
+    this._serviceImage = serviceImage;
+    this._validatorImage = validatorImage;
     this._validator = validator;
 
     this.postUserHandler = this.postUserHandler.bind(this);
     this.getUserByIdHandler = this.getUserByIdHandler.bind(this);
     this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
     this.getUsersByUsernameHandler = this.getUsersByUsernameHandler.bind(this);
+    this.postUploadProfileImageHandler = this.postUploadProfileImageHandler.bind(this);
+    this.postUploadCoverImageHandler = this.postUploadCoverImageHandler.bind(this);
   }
 
   async postUserHandler(request, h) {
@@ -71,6 +75,50 @@ class UsersHandler {
         status: 'success',
         message: 'User berhasil dihapus',
       };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async postUploadProfileImageHandler(request, h) {
+    try {
+      const { data } = request.payload;
+      const { id } = request.params;
+      this._validatorImage.validateImageHeaders(data.hapi.headers);
+      const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
+      console.log(fileLocation);
+      await this._service.insertProfileImage(id, fileLocation);
+      const response = h.response({
+        status: 'success',
+        message: 'Gambar berhasil diunggah',
+        data: {
+          fileLocation,
+        },
+      });
+      response.code(201);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async postUploadCoverImageHandler(request, h) {
+    try {
+      const { data } = request.payload;
+      const { id } = request.params;
+      this._validatorImage.validateImageHeaders(data.hapi.headers);
+      const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
+      console.log(fileLocation);
+      await this._service.insertCoverImage(id, fileLocation);
+      const response = h.response({
+        status: 'success',
+        message: 'Gambar berhasil diunggah',
+        data: {
+          fileLocation,
+        },
+      });
+      response.code(201);
+      return response;
     } catch (error) {
       return error;
     }

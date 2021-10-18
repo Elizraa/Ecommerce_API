@@ -6,9 +6,8 @@ module.exports = {
   version: '1.0.0',
   register: async (server, { service, validator }) => {
     const wishlistHandler = new CollaborationsHandler(
-      service, validator
+      service, validator,
     );
     server.route(routes(wishlistHandler));
   },
 };
-

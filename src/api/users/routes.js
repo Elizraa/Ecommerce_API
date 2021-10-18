@@ -19,6 +19,32 @@ const routes = (handler) => [
     path: '/users',
     handler: handler.deleteUserByEmailHandler,
   },
+  {
+    method: 'POST',
+    path: '/users/upload/profile/{id}',
+    handler: handler.postUploadProfileImageHandler,
+    options: {
+      payload: {
+        maxBytes: 524288,
+        allow: ['application/json', 'image/jpeg', 'multipart/form-data'],
+        multipart: true,
+        output: 'stream',
+      },
+    },
+  },
+  {
+    method: 'POST',
+    path: '/users/upload/cover/{id}',
+    handler: handler.postUploadCoverImageHandler,
+    options: {
+      payload: {
+        maxBytes: 524288,
+        allow: ['application/json', 'image/jpeg', 'multipart/form-data'],
+        multipart: true,
+        output: 'stream',
+      },
+    },
+  },
 ];
 
 module.exports = routes;

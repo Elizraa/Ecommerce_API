@@ -16,7 +16,7 @@ class WishlistHandler {
         user_id, product_id
       } = request.payload;
       const userId = await this._service.addWishlist({
-        user_id, product_id
+        user_id, product_id,
       });
 
       const response = h.response({
@@ -32,7 +32,6 @@ class WishlistHandler {
       return error;
     }
   }
-
 
   async deleteWishlistHandler(request) {
     try {

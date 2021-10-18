@@ -1,8 +1,8 @@
 const AWS = require('aws-sdk');
 
-const { nanoid } = require('nanoid');
-const InvariantError = require('../../exceptions/InvariantError');
-const NotFoundError = require('../../exceptions/NotFoundError');
+// const { nanoid } = require('nanoid');
+// const InvariantError = require('../../exceptions/InvariantError');
+// const NotFoundError = require('../../exceptions/NotFoundError');
 
 class StorageService {
   constructor() {
@@ -27,34 +27,34 @@ class StorageService {
     });
   }
 
-  async insertTable(ownerId, fileLocation) {
-    const id = `image-${nanoid(16)}`;
-    const pictureUrl = `http://${process.env.HOST}:${process.env.PORT}/file/images/${fileLocation}`;
-    const query = {
-      text: 'INSERT INTO productimage VALUES($1, $2, $3) RETURNING id',
-      values: [id, pictureUrl, ownerId],
-    };
+  // async insertTable(ownerId, fileLocation) {
+  //   const id = `image-${nanoid(16)}`;
+  //   const pictureUrl = `http://${process.env.HOST}:${process.env.PORT}/file/images/${fileLocation}`;
+  //   const query = {
+  //     text: 'INSERT INTO productimage VALUES($1, $2, $3) RETURNING id',
+  //     values: [id, pictureUrl, ownerId],
+  //   };
 
-    const result = await this._pool.query(query);
+  //   const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
-      throw new InvariantError('Image gagal ditambahkan pada table');
-    }
-    return result.rows[0];
-  }
+  //   if (!result.rows.length) {
+  //     throw new InvariantError('Image gagal ditambahkan pada table');
+  //   }
+  //   return result.rows[0];
+  // }
 
-  async getImage(ownerId) {
-    const query = {
-      text: 'SELECT image from productimage where owner_id = $1',
-      values: [ownerId],
-    };
+  // async getImage(ownerId) {
+  //   const query = {
+  //     text: 'SELECT image from productimage where owner_id = $1',
+  //     values: [ownerId],
+  //   };
 
-    const result = await this._pool.query(query);
-    if (!result.rows.length) {
-      throw new NotFoundError('Image tidak ditemukan');
-    }
-    return result.rows[0];
-  }
+  //   const result = await this._pool.query(query);
+  //   if (!result.rows.length) {
+  //     throw new NotFoundError('Image tidak ditemukan');
+  //   }
+  //   return result.rows[0];
+  // }
 }
 
 module.exports = StorageService;

@@ -1,6 +1,8 @@
 class ProductsHandler {
-  constructor(service, validator) {
+  constructor(service, serviceImage, validator, validatorImage) {
     this._service = service;
+    this._serviceImage = serviceImage;
+    this._validatorImage = validatorImage;
     this._validator = validator;
 
     this.postProductHandler = this.postProductHandler.bind(this);
@@ -9,6 +11,7 @@ class ProductsHandler {
     this.getProductsBySellerIdHandler = this.getProductsBySellerIdHandler.bind(this);
     this.putProductByIdHandler = this.putProductByIdHandler.bind(this);
     this.deleteProductByIdHandler = this.deleteProductByIdHandler.bind(this);
+    this.postUploadImageHandler = this.postUploadImageHandler.bind(this);
   }
 
   async postProductHandler(request, h) {
@@ -100,6 +103,28 @@ class ProductsHandler {
           product,
         },
       };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async postUploadImageHandler(request, h) {
+    try {
+      const { data } = request.payload;
+      const { id } = request.params;
+      this._validatorImage.validateImageHeaders(data.hapi.headers);
+      const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
+      console.log(fileLocation);
+      await this._service.insertImage(id, fileLocation);
+      const response = h.response({
+        status: 'success',
+        message: 'Gambar berhasil diunggah',
+        data: {
+          fileLocation,
+        },
+      });
+      response.code(201);
+      return response;
     } catch (error) {
       return error;
     }

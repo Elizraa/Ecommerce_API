@@ -20,7 +20,7 @@ class UsersService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const query = {
       text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
-      values: [id, name, email, phoneNumber, hashedPassword, saldo],
+      values: [id, email, name, phoneNumber, hashedPassword, saldo],
     };
 
     const result = await this._pool.query(query);
@@ -111,6 +111,30 @@ class UsersService {
     };
     const result = await this._pool.query(query);
     return result.rows;
+  }
+
+  async insertProfileImage(id, url) {
+    const query = {
+      text: 'update users set profile_image = $1 where id = $2 returning id',
+      values: [url, id],
+    };
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw new NotFoundError('User tidak ditemukan');
+    }
+    return result.rows[0];
+  }
+
+  async insertCoverImage(id, url) {
+    const query = {
+      text: 'update users set cover_image = $1 where id = $2 returning id',
+      values: [url, id],
+    };
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw new NotFoundError('User tidak ditemukan');
+    }
+    return result.rows[0];
   }
 }
 

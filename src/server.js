@@ -29,7 +29,7 @@ const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
 // wishlists
-const wishlists = require('./api/collaborations');
+const wishlists = require('./api/wishlist');
 const WishlistService = require('./services/postgres/CollaborationsService');
 const WishlistValidator = require('./validator/collaborations');
 
@@ -87,14 +87,18 @@ const init = async () => {
       plugin: products,
       options: {
         service: productsService,
+        imageService: storageService,
         validator: ProductsValidator,
+        validatorImage: UploadsValidator,
       },
     },
     {
       plugin: users,
       options: {
         service: usersService,
+        imageService: storageService,
         validator: UsersValidator,
+        validatorImage: UploadsValidator,
       },
     },
     {

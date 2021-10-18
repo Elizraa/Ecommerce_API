@@ -32,6 +32,10 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
     },
+    image: {
+      type: 'text',
+      notNull: true,
+    },
   });
   pgm.addConstraint('products', 'fk_products.user_id_users.id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
 };

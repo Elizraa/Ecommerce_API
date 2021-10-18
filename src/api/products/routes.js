@@ -29,6 +29,19 @@ const routes = (handler) => [
     path: '/products/seller/{id}',
     handler: handler.getProductsBySellerIdHandler,
   },
+  {
+    method: 'POST',
+    path: '/product/image/{id}',
+    handler: handler.postUploadImageHandler,
+    options: {
+      payload: {
+        maxBytes: 524288,
+        allow: ['application/json', 'image/jpeg', 'multipart/form-data'],
+        multipart: true,
+        output: 'stream',
+      },
+    },
+  },
 ];
 
 module.exports = routes;

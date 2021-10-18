@@ -95,6 +95,18 @@ class ProductsService {
       throw new NotFoundError('Product gagal dihapus. Id tidak ditemukan');
     }
   }
+
+  async insertImage(id, url) {
+    const query = {
+      text: 'update products set image = $1 where id = $2 returning id',
+      values: [url, id],
+    };
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw new NotFoundError('Product tidak ditemukan');
+    }
+    return result.rows[0];
+  }
 }
 
 module.exports = ProductsService;

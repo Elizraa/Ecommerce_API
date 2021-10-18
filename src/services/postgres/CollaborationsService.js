@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
 class CollaborationsService {
   constructor(cacheService) {
@@ -8,12 +9,12 @@ class CollaborationsService {
     this._cacheService = cacheService;
   }
 
-  async addWishlist(user_id, product_id) {
+  async addWishlist(userId, productId) {
     const id = `collab-${nanoid(16)}`;
 
     const query = {
       text: 'INSERT INTO wishlist VALUES($1, $2, $3) RETURNING id',
-      values: [id, user_id, product_id],
+      values: [id, userId, productId],
     };
 
     const result = await this._pool.query(query);
@@ -21,14 +22,14 @@ class CollaborationsService {
     if (!result.rowCount) {
       throw new InvariantError('Wishlist gagal ditambahkan');
     }
-    await this._cacheService.delete(`owner-${user_id}`);
+    await this._cacheService.delete(`owner-${userId}`);
     return result.rows[0].id;
   }
 
-  async deleteWishlist(user_id, product_id) {
+  async deleteWishlist(userId, productId) {
     const query = {
       text: 'DELETE FROM wishlist WHERE user_id = $1 AND product_id = $2 RETURNING id',
-      values: [user_id, product_id],
+      values: [userId, productId],
     };
 
     const result = await this._pool.query(query);
@@ -36,7 +37,7 @@ class CollaborationsService {
     if (!result.rowCount) {
       throw new InvariantError('Kolaborasi gagal dihapus');
     }
-    await this._cacheService.delete(`owner-${user_Id}`);
+    await this._cacheService.delete(`owner-${userId}`);
   }
 
   async getWishlistByUserId(UserId) {
