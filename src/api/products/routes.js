@@ -3,31 +3,49 @@ const routes = (handler) => [
     method: 'POST',
     path: '/products',
     handler: handler.postProductHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'GET',
     path: '/products',
     handler: handler.getProductsHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'GET',
     path: '/products/{id}',
     handler: handler.getProductByIdHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'PUT',
     path: '/products/{id}',
     handler: handler.putProductByIdHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'DELETE',
     path: '/products/{id}',
     handler: handler.deleteProductByIdHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'DELETE',
     path: '/products/seller/{id}',
     handler: handler.getProductsBySellerIdHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'POST',
@@ -40,6 +58,7 @@ const routes = (handler) => [
         multipart: true,
         output: 'stream',
       },
+      auth: 'ecommerce_jwt',
     },
   },
 ];

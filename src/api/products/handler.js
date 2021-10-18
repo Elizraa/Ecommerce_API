@@ -17,12 +17,13 @@ class ProductsHandler {
   async postProductHandler(request, h) {
     try {
       this._validator.validateProductPayload(request.payload);
+      const { id: credentialId } = request.auth.credentials;
       const {
-        name, description, category, price, stock, sellerId,
+        name, description, category, price, onSell,
       } = request.payload;
 
       const productId = await this._service.addProduct({
-        name, description, category, price, stock, sellerId,
+        name, description, category, price, onSell, credentialId,
       });
 
       const response = h.response({

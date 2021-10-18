@@ -83,11 +83,11 @@ class UsersHandler {
   async postUploadProfileImageHandler(request, h) {
     try {
       const { data } = request.payload;
-      const { id } = request.params;
+      const { id: credentialId } = request.auth.credentials;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
       console.log(fileLocation);
-      await this._service.insertProfileImage(id, fileLocation);
+      await this._service.insertProfileImage(credentialId, fileLocation);
       const response = h.response({
         status: 'success',
         message: 'Gambar berhasil diunggah',
@@ -105,11 +105,11 @@ class UsersHandler {
   async postUploadCoverImageHandler(request, h) {
     try {
       const { data } = request.payload;
-      const { id } = request.params;
+      const { id: credentialId } = request.auth.credentials;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
       console.log(fileLocation);
-      await this._service.insertCoverImage(id, fileLocation);
+      await this._service.insertCoverImage(credentialId, fileLocation);
       const response = h.response({
         status: 'success',
         message: 'Gambar berhasil diunggah',

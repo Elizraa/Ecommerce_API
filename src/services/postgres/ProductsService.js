@@ -10,13 +10,12 @@ class ProductsService {
   }
 
   async addProduct({
-    name, description, category, price, onSell, userId,
+    name, description, category, price, onSell, credentialId,
   }) {
     const id = `product-${nanoid(16)}`;
-
     const query = {
       text: 'insert into products values($1, $2, $3, $4, $5, $6, $7) returning id',
-      values: [id, name, description, category, price, onSell, userId],
+      values: [id, name, description, category, price, onSell, credentialId],
     };
 
     const result = await this._pool.query(query);

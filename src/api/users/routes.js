@@ -30,6 +30,7 @@ const routes = (handler) => [
         multipart: true,
         output: 'stream',
       },
+      auth: 'ecommerce_jwt',
     },
   },
   {
@@ -43,6 +44,7 @@ const routes = (handler) => [
         multipart: true,
         output: 'stream',
       },
+      auth: 'ecommerce_jwt',
     },
   },
 ];

@@ -12,10 +12,10 @@ class OrdersHandler {
     try {
       this._validator.validateOrderPayload(request.payload);
 
-      const { name } = request.payload;
+      const { productId } = request.payload;
       const { id: owner } = request.auth.credentials;
 
-      const orderId = await this._service.addOrder({ name, owner });
+      const orderId = await this._service.addOrder({ productId, owner });
 
       const response = h.response({
         status: 'success',
