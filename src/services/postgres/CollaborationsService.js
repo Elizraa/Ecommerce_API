@@ -13,7 +13,7 @@ class CollaborationsService {
   async addWishlist({
     productId, credentialId,
   }) {
-    const id = `collab-${nanoid(16)}`;
+    const id = `wishlist-${nanoid(16)}`;
 
     const query = {
       text: 'INSERT INTO wishlist VALUES($1, $2, $3) RETURNING id',
@@ -42,8 +42,9 @@ class CollaborationsService {
   }
 
   async getWishlist() {
-    const result = await this._pool.query('select * from wishlist w inner join products p on p.id = w.product_id');
-    return result.rows.map(mapDBToModel);
+    const result = await this._pool.query('select w.id, w.product_id, p.user_id,p.name,' +
+    'p.description,p.category,p.price,p.on_sell,p.image from wishlist w inner join products p on p.id = w.product_id');
+    return result.rows;
   }
 
   async getWishlistById(id) {

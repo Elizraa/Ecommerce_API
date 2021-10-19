@@ -49,7 +49,6 @@ class WishlistHandler {
   }
 
   async getWishlistHandler() {
-    try {
       const wishlist = await this._service.getWishlist();
       return {
         status: 'success',
@@ -57,9 +56,8 @@ class WishlistHandler {
           wishlist,
         },
       };
-    } catch (error) {
-      return error;
-    }
+     
+    
   }
 }
 
