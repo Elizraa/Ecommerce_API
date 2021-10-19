@@ -96,6 +96,27 @@ Product
 	Delete product by productId
 		DELETE
 		/products/{productId}
+
+
+Wishlist
+	Add Wishlist
+		POST
+		/wishlists
+		param : productId
+		auth : bearer accessToken
+		return wishlistId
+
+	Show Wishlist
+		GET
+		/wishlists
+		auth : bearer accessToken
+		return wishlist, product
+
+	Delete wishlist
+		Delete
+		/wishlists/{wishlistId}
+		payload = wishlistId
+
 		
 	
 	
