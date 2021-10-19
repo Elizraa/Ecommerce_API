@@ -115,7 +115,7 @@ class ProductsHandler {
       const { id } = request.params;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
-      console.log(fileLocation);
+      // console.log(fileLocation);
       await this._service.insertImage(id, fileLocation);
       const response = h.response({
         status: 'success',

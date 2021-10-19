@@ -21,7 +21,7 @@ const routes = (handler) => [
   },
   {
     method: 'POST',
-    path: '/users/upload/profile/{id}',
+    path: '/users/upload/profile',
     handler: handler.postUploadProfileImageHandler,
     options: {
       payload: {
@@ -35,7 +35,7 @@ const routes = (handler) => [
   },
   {
     method: 'POST',
-    path: '/users/upload/cover/{id}',
+    path: '/users/upload/cover',
     handler: handler.postUploadCoverImageHandler,
     options: {
       payload: {

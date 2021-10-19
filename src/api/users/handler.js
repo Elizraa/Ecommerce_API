@@ -86,7 +86,7 @@ class UsersHandler {
       const { id: credentialId } = request.auth.credentials;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
-      console.log(fileLocation);
+      // console.log(fileLocation);
       await this._service.insertProfileImage(credentialId, fileLocation);
       const response = h.response({
         status: 'success',
@@ -108,7 +108,7 @@ class UsersHandler {
       const { id: credentialId } = request.auth.credentials;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
-      console.log(fileLocation);
+      // console.log(fileLocation);
       await this._service.insertCoverImage(credentialId, fileLocation);
       const response = h.response({
         status: 'success',

@@ -8,17 +8,17 @@ class WishlistHandler {
     this.getWishlistHandler = this.getWishlistHandler.bind(this);
     // this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
   //   this.getWishlistByIdHandler = this.getWishlistByIdHandler.bind(this);
-   }
+  }
 
   async postWishlistHandler(request, h) {
     try {
       this._validator.validateCollaborationPayload(request.payload);
       const { id: credentialId } = request.auth.credentials;
       const {
-        productId
+        productId,
       } = request.payload;
       const wishlistId = await this._service.addWishlist({
-        productId,credentialId
+        productId, credentialId,
       });
 
       const response = h.response({
@@ -48,10 +48,6 @@ class WishlistHandler {
     }
   }
 
-
-
-
-  
   async getWishlistHandler() {
     try {
       const wishlist = await this._service.getWishlist();
@@ -65,11 +61,7 @@ class WishlistHandler {
       return error;
     }
   }
-  
- 
 }
-
-
 
 module.exports = WishlistHandler;
 

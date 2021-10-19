@@ -41,8 +41,6 @@ class CollaborationsService {
     }
   }
 
-  
-
   async getWishlist() {
     const result = await this._pool.query('select * from wishlist w inner join products p on p.id = w.product_id');
     return result.rows.map(mapDBToModel);
