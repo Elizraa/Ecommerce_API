@@ -21,7 +21,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     price: {
-      type: 'integer',
+      type: 'float8',
       notNull: true,
     },
     on_sell: {
