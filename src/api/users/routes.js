@@ -25,7 +25,7 @@ const routes = (handler) => [
     handler: handler.postUploadProfileImageHandler,
     options: {
       payload: {
-        maxBytes: 524288,
+        maxBytes: 1048576,
         allow: ['application/json', 'image/jpeg', 'multipart/form-data'],
         multipart: true,
         output: 'stream',
@@ -39,7 +39,7 @@ const routes = (handler) => [
     handler: handler.postUploadCoverImageHandler,
     options: {
       payload: {
-        maxBytes: 524288,
+        maxBytes: 1048576,
         allow: ['application/json', 'image/jpeg', 'multipart/form-data'],
         multipart: true,
         output: 'stream',
