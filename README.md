@@ -7,57 +7,57 @@ API project in e-commerce about NFT
 
 # Fitur
 ## User  
-**Signup**  
+### Signup
 	POST  
 	/users  
 	param : name, email, phone_number, password  
 	return userId  
   
-**Signin**  
+### Signin 
 	POST  
 	/authentications  
 	param : email, password  
 	return accessToken, refreshToken  
   
-accessToken kadaluarsa tiap 30 menit (iya kelamaan) dan kalo dalam waktu itu user belum logout,
-kalo mau tetep keitung login, ngirimin refreshToken yang tadi buat memperbarui accessToken,
-kalo user logout refreshToken diapus
+	accessToken kadaluarsa tiap 30 menit (iya kelamaan) dan kalo dalam waktu itu user belum logout,
+	kalo mau tetep keitung login, ngirimin refreshToken yang tadi buat memperbarui accessToken,
+	kalo user logout refreshToken diapus
 
-**RefreshAccess**  
+### RefreshAccess
 	PUT  
 	/authentications  
 	param : refreshToken  
 	return accessToken  
   
-**Logout**  
+### Logout
 	DELETE  
 	/authentications  
 	param : refreshToken  
   
-**Get User Info by Id**  
+### Get User Info by Id
 	GET  
 	/users/{id}  
 	return user  
   
-**Get User Info by Username**  
+### Get User Info by Username 
 	GET  
 	/users  
 	param : name  
 	return users  
   
-**Delete user**  
+### Delete user
 	DELETE  
 	/users  
 	param : email, password  
   
-**Upload profile**  
+### Upload profile 
 	POST  
 	/users/upload/profile  
 	payload : image  
 	auth : bearer accessToken  
 	return urlImage  
   
-**Upload cover**  
+### Upload cover
 	POST  
 	/users/upload/cover  
 	payload : image  
@@ -65,60 +65,60 @@ kalo user logout refreshToken diapus
 	return urlImage  
   
 ## Product  
-**Add product**
+### Add product
 	POST
 	/products
 	param : name, description, category, price, onSell
 	auth : bearer accessToken
 	return productId
 
-**Add image product**
+### Add image product
 	POST
 	/products/image/{productId}
 	payload : image
 	auth : bearer accessToken
 	return urlImage
 
-**Get all products**
+### Get all products
 	GET
 	/products
 	return products
 
-**Get product by productId**
+### Get product by productId
 	GET
 	/products/{productId}
 	return product
 
-**Get product by ownerId**
+### Get product by ownerId
 	GET
 	/products/{ownerId}
 	return product
 
-**Update product by productId**
+### Update product by productId
 	GET
 	/products/{productId}
 	param : name, description, category, price, onSell
 
-**Delete product by productId**
+### Delete product by productId
 	DELETE
 	/products/{productId}
 
 
 ## Wishlist
-**Add Wishlist**  
+### Add Wishlist  
 	POST  
 	/wishlists  
 	param : productId  
 	auth : bearer accessToken  
 	return wishlistId  
   
-**Show Wishlist**  
+### Show Wishlist  
 	GET  
 	/wishlists  
 	auth : bearer accessToken  
 	return wishlist, product  
   
-**Delete wishlist**  
+### Delete wishlist  
 	Delete  
 	/wishlists/{wishlistId}  
 	payload = wishlistId  
