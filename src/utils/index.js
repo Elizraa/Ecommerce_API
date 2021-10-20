@@ -1,22 +1,24 @@
 /* eslint-disable camelcase */
 const mapDBToModel = ({
   id,
-  nama,
+  name,
   description,
   category,
   price,
   on_sell,
-  user_id,
   image,
+  username,
+  profile_image,
 }) => ({
   id,
-  nama,
+  name,
   description,
   category,
   price,
   onSell: on_sell,
-  sellerId: user_id,
   image,
+  username,
+  profileImage: profile_image,
 });
 
 module.exports = { mapDBToModel };

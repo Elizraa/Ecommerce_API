@@ -28,18 +28,18 @@ class ProductsService {
   }
 
   async getProducts() {
-    const result = await this._pool.query('select * from products');
+    const result = await this._pool.query('select p.name, p.description, p.category, p.price, p.on_sell, p.image, u.name username, u.profile_image from products p inner join users u on p.user_id = u.id');
     return result.rows.map(mapDBToModel);
   }
 
   async getProductsOnSell() {
-    const result = await this._pool.query('select * from products where on_sell');
+    const result = await this._pool.query('select p.name, p.description, p.category, p.price, p.on_sell, p.image, u.name username, u.profile_image from products p inner join users u on p.user_id = u.id where on_sell');
     return result.rows.map(mapDBToModel);
   }
 
   async getProductById(id) {
     const query = {
-      text: 'select * from products where id = $1',
+      text: 'select p.name, p.description, p.category, p.price, p.on_sell, p.image, u.name username, u.profile_image from products p inner join users u on p.user_id = u.id where id = $1',
       values: [id],
     };
     const result = await this._pool.query(query);
