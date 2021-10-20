@@ -83,6 +83,11 @@ API project in e-commerce about NFT
 	GET
 	/products
 	return products
+	
+### Get all products on sell
+	GET
+	/products/onsell
+	return products
 
 ### Get product by productId
 	GET
