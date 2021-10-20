@@ -7,6 +7,7 @@ class ProductsHandler {
 
     this.postProductHandler = this.postProductHandler.bind(this);
     this.getProductsHandler = this.getProductsHandler.bind(this);
+    this.getProductsOnSellHandler = this.getProductsOnSellHandler.bind(this);
     this.getProductByIdHandler = this.getProductByIdHandler.bind(this);
     this.getProductsBySellerIdHandler = this.getProductsBySellerIdHandler.bind(this);
     this.putProductByIdHandler = this.putProductByIdHandler.bind(this);
@@ -42,6 +43,16 @@ class ProductsHandler {
 
   async getProductsHandler() {
     const products = await this._service.getProducts();
+    return {
+      status: 'success',
+      data: {
+        products,
+      },
+    };
+  }
+
+  async getProductsOnSellHandler() {
+    const products = await this._service.getProductsOnSell();
     return {
       status: 'success',
       data: {
