@@ -9,8 +9,16 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/orders',
-    handler: handler.getOrdersHandler,
+    path: '/orders/history/buy',
+    handler: handler.getOrdersBuyerHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
+  },
+  {
+    method: 'GET',
+    path: '/orders/history/sell',
+    handler: handler.getOrdersSellerHandler,
     options: {
       auth: 'ecommerce_jwt',
     },

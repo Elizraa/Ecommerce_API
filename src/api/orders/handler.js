@@ -4,7 +4,8 @@ class OrdersHandler {
     this._validator = validator;
 
     this.postOrderHandler = this.postOrderHandler.bind(this);
-    this.getOrdersHandler = this.getOrdersHandler.bind(this);
+    this.getOrdersBuyerHandler = this.getOrdersBuyerHandler.bind(this);
+    this.getOrdersSellerHandler = this.getOrdersSellerHandler.bind(this);
     this.deleteOrderByIdHandler = this.deleteOrderByIdHandler.bind(this);
   }
 
@@ -13,9 +14,9 @@ class OrdersHandler {
       this._validator.validateOrderPayload(request.payload);
 
       const { productId } = request.payload;
-      const { id: owner } = request.auth.credentials;
+      const { id: userId } = request.auth.credentials;
 
-      const orderId = await this._service.addOrder({ productId, owner });
+      const orderId = await this._service.addOrder(userId, productId);
 
       const response = h.response({
         status: 'success',
@@ -31,9 +32,20 @@ class OrdersHandler {
     }
   }
 
-  async getOrdersHandler(request) {
+  async getOrdersBuyerHandler(request) {
     const { id: credentialId } = request.auth.credentials;
-    const orders = await this._service.getOrders(credentialId);
+    const orders = await this._service.getOrdersBuyer(credentialId);
+    return {
+      status: 'success',
+      data: {
+        orders,
+      },
+    };
+  }
+
+  async getOrdersSellerHandler(request) {
+    const { id: credentialId } = request.auth.credentials;
+    const orders = await this._service.getOrdersSeller(credentialId);
     return {
       status: 'success',
       data: {

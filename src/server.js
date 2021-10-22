@@ -128,7 +128,7 @@ const init = async () => {
     {
       plugin: wishlists,
       options: {
-        service : wishlistService,
+        service: wishlistService,
         validator: WishlistValidator,
       },
     },
