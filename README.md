@@ -7,10 +7,10 @@ API project in e-commerce about NFT
 
 # Fitur
 
-- [User](##User)
-- [Product](## Product)
-- [Wishlist](##-Wishlist)
-- [Order](##-Order)
+- [User](#User)
+- [Product](#Product)
+- [Wishlist](#Wishlist)
+- [Order](#Order)
 
 ## User  
 ### Signup
