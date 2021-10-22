@@ -136,13 +136,19 @@ API project in e-commerce about NFT
 	auth = bearer accessToken
 	return orderId
 
-### Get Buy History
+### Get All History User
+	GET
+	/orders/history
+	auth = bearer accessToken
+	return ordersSell, ordersBuy
+
+### Get Buy History User
 	GET
 	/orders/history/buy
 	auth = bearer accessToken
 	return orders
 
-### Get Sell History
+### Get Sell History User
 	GET
 	/orders/history/sell
 	auth = bearer accessToken

@@ -24,6 +24,14 @@ const routes = (handler) => [
     },
   },
   {
+    method: 'GET',
+    path: '/orders/history',
+    handler: handler.getOrdersHistoryHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
+  },
+  {
     method: 'DELETE',
     path: '/orders/{orderId}',
     handler: handler.deleteOrderByIdHandler,

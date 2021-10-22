@@ -7,6 +7,7 @@ class OrdersHandler {
     this.getOrdersBuyerHandler = this.getOrdersBuyerHandler.bind(this);
     this.getOrdersSellerHandler = this.getOrdersSellerHandler.bind(this);
     this.deleteOrderByIdHandler = this.deleteOrderByIdHandler.bind(this);
+    this.getOrdersHistoryHandler = this.getOrdersHistoryHandler.bind(this);
   }
 
   async postOrderHandler(request, h) {
@@ -50,6 +51,19 @@ class OrdersHandler {
       status: 'success',
       data: {
         orders,
+      },
+    };
+  }
+
+  async getOrdersHistoryHandler(request) {
+    const { id: credentialId } = request.auth.credentials;
+    const ordersSell = await this._service.getOrdersSeller(credentialId);
+    const ordersBuy = await this._service.getOrdersBuyer(credentialId);
+    return {
+      status: 'success',
+      data: {
+        ordersSell,
+        ordersBuy,
       },
     };
   }
