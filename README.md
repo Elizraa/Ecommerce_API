@@ -128,6 +128,31 @@ API project in e-commerce about NFT
 	/wishlists/{wishlistId}  
 	payload = wishlistId  
 
+## Orders
+### Add Order
+	POST
+	/orders
+	payload = productId
+	auth = bearer accessToken
+	return orderId
+
+### Get Buy History
+	GET
+	/orders/history/buy
+	auth = bearer accessToken
+	return orders
+
+### Get Sell History
+	GET
+	/orders/history/sell
+	auth = bearer accessToken
+	return orders
+
+### Delete Order By OrderId
+	DELETE
+	/orders/{orderId}
+	auth = bearer accessToken
+
 		
 	
 	
