@@ -6,6 +6,12 @@ API project in e-commerce about NFT
 [ecomrece.vercel.app](https://ecomrece.vercel.app/)
 
 # Fitur
+
+- [User](##-User)
+- [Product](##-Product)
+- [Wishlist](##-Wishlist)
+- [Order](##-Order)
+
 ## User  
 ### Signup
 	POST  
