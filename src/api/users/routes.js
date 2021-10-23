@@ -6,12 +6,15 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/users/{id}',
+    path: '/users',
     handler: handler.getUserByIdHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
   },
   {
     method: 'GET',
-    path: '/users',
+    path: '/users/{name}',
     handler: handler.getUsersByUsernameHandler,
   },
   {

@@ -40,16 +40,16 @@ API project in e-commerce about NFT
 	/authentications  
 	param : refreshToken  
   
-### Get User Info by Id
+### Get User Info by accesToken
 	GET  
-	/users/{id}  
+	/users
+	auth : accesToken 
 	return user  
   
 ### Get User Info by Username 
 	GET  
-	/users  
-	param : name  
-	return users  
+	/users/{name}
+	return user
   
 ### Delete user
 	DELETE  

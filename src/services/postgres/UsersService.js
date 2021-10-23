@@ -106,8 +106,8 @@ class UsersService {
 
   async getUsersByName(name) {
     const query = {
-      text: 'SELECT id, name, phone_number, saldo, profile_image, cover_image FROM users WHERE name LIKE $1',
-      values: [`%${name}%`],
+      text: 'SELECT name, phone_number, saldo, profile_image, cover_image FROM users WHERE name = $1',
+      values: [name],
     };
     const result = await this._pool.query(query);
     return result.rows;
