@@ -7,7 +7,7 @@ class WishlistHandler {
     this.deleteWishlistHandler = this.deleteWishlistHandler.bind(this);
     this.getWishlistHandler = this.getWishlistHandler.bind(this);
     // this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
-  //   this.getWishlistByIdHandler = this.getWishlistByIdHandler.bind(this);
+    // this.getWishlistByIdHandler = this.getWishlistByIdHandler.bind(this);
   }
 
   async postWishlistHandler(request, h) {
