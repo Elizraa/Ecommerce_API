@@ -28,18 +28,18 @@ class ProductsService {
   }
 
   async getProducts() {
-    const result = await this._pool.query('select p.name, p.description, p.category, p.price, p.on_sell, p.image, u.name username, u.profile_image from products p inner join users u on p.user_id = u.id');
-    return result.rows.map(mapDBToModel);
+    const result = await this._pool.query('select p.id, p.name, p.category, p.price, p.on_sell onSell, p.image, u.name username from products p inner join users u on p.user_id = u.id');
+    return result.rows;
   }
 
   async getProductsOnSell() {
-    const result = await this._pool.query('select p.name, p.description, p.category, p.price, p.on_sell, p.image, u.name username, u.profile_image from products p inner join users u on p.user_id = u.id where on_sell');
-    return result.rows.map(mapDBToModel);
+    const result = await this._pool.query('select p.id, p.name, p.category, p.price, p.on_sell onSell, p.image, u.name username from products p inner join users u on p.user_id = u.id where on_sell');
+    return result.rows;
   }
 
   async getProductById(id) {
     const query = {
-      text: 'select p.name, p.description, p.category, p.price, p.on_sell, p.image, u.name username, u.profile_image from products p inner join users u on p.user_id = u.id where id = $1',
+      text: 'select p.name, p.description, p.category, p.price, p.on_sell onSell, p.image, u.name username, u.profile_image profileImage from products p inner join users u on p.user_id = u.id where p.id = $1',
       values: [id],
     };
     const result = await this._pool.query(query);
@@ -48,7 +48,7 @@ class ProductsService {
       throw new NotFoundError('Product tidak ditemukan');
     }
 
-    return result.rows.map(mapDBToModel)[0];
+    return result.rows[0];
   }
 
   async getProductByUserId(UserId) {
