@@ -5,7 +5,9 @@ class TimesHandler {
   
       this.postTimesHandler = this.postTimesHandler.bind(this);
       this.postTimesWithUserHandler = this.postTimesWithUserHandler.bind(this);
-      this.getWishlistHandler = this.getWishlistHandler.bind(this);
+      this.getTimesHandler = this.getTimesHandler.bind(this);
+      this.getTimesHistoryHandler = this.getTimesHistoryHandler.bind(this);
+      this.getTimesRecHandler = this.getTimesRecHandler.bind(this);
       // this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
       // this.getWishlistByIdHandler = this.getWishlistByIdHandler.bind(this);
     }
@@ -61,17 +63,35 @@ class TimesHandler {
   
    
   
-    async getWishlistHandler() {
-        const wishlist = await this._service.getWishlist();
+    async getTimesHandler() {
+        const times = await this._service.getTimes();
         return {
           status: 'success',
           data: {
-            wishlist,
+            times,
           },
-        };
-       
-      
+        };   
     }
+
+    async getTimesHistoryHandler(request, h) {
+      const { id: credentialId } = request.auth.credentials;
+      const times = await this._service.getTimesHistory(credentialId);     
+      return {
+        status: 'success',
+        data: {
+          times,
+        },
+      };   
+  }
+  async getTimesRecHandler() {
+    const times = await this._service.getTimesRec();
+    return {
+      status: 'success',
+      data: {
+        times,
+      },
+    };   
+}
   }
   
   module.exports = TimesHandler;

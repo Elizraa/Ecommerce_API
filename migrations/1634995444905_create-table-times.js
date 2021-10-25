@@ -21,7 +21,7 @@ exports.up = pgm => {
       notNull: true
       },
      timestamp : {
-      type : 'text',
+      type : 'timestamp',
       notNull :true
         }
       });
