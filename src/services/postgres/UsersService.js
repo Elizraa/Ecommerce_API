@@ -70,8 +70,15 @@ class UsersService {
     if (!result.rows.length) {
       throw new NotFoundError('User tidak ditemukan');
     }
-
     return result.rows[0];
+  }
+
+  async getUsersSaldoHighest() {
+    const query = {
+      text: 'Select id, name, saldo, profile_image from users order by saldo desc limit 7',
+    };
+    const result = await this._pool.query(query);
+    return result.rows;
   }
 
   async deleteUserByEmail(email, password) {

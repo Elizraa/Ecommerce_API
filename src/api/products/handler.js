@@ -13,6 +13,7 @@ class ProductsHandler {
     this.putProductByIdHandler = this.putProductByIdHandler.bind(this);
     this.deleteProductByIdHandler = this.deleteProductByIdHandler.bind(this);
     this.postUploadImageHandler = this.postUploadImageHandler.bind(this);
+    this.getProductsByCategoryHandler = this.getProductsByCategoryHandler.bind(this);
   }
 
   async postProductHandler(request, h) {
@@ -140,6 +141,17 @@ class ProductsHandler {
     } catch (error) {
       return error;
     }
+  }
+
+  async getProductsByCategoryHandler(request) {
+    const { category } = request.params;
+    const products = await this._service.getProductByCategory(category);
+    return {
+      status: 'success',
+      data: {
+        products,
+      },
+    };
   }
 }
 

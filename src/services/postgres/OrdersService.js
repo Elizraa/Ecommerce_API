@@ -16,14 +16,20 @@ class OrdersService {
     const status = true;
     const date = new Date().toISOString();
     const querySeller = {
-      text: 'select user_id from products where id = $1',
+      text: 'select user_id, on_sell from products where id = $1',
       values: [productId],
     };
     const result1 = await this._pool.query(querySeller);
-    const { user_id: userId } = result1.rows[0];
+    const { user_id: userSellerId, on_sell: onSell } = result1.rows[0];
+    if (userbuyerId === userSellerId) {
+      throw new ClientError('User yang sama');
+    }
+    if (onSell === false) {
+      throw new ClientError('Product tidak dijual');
+    }
     const query = {
       text: 'insert into orders values($1, $2, $3, $4, $5, $6) returning id',
-      values: [id, status, date, userbuyerId, userId, productId],
+      values: [id, status, date, userbuyerId, userSellerId, productId],
     };
 
     const result = await this._pool.query(query);
@@ -31,10 +37,10 @@ class OrdersService {
     if (!result.rows[0].id) {
       throw new InvariantError('Order gagal ditambahkan');
     }
-
+    const onSellUpdate = false;
     const queryBuyer = {
-      text: 'update products set user_id = $1 where id = $2',
-      values: [userbuyerId, productId],
+      text: 'update products set user_id = $1, on_sell = $2 where id = $3',
+      values: [userbuyerId, onSellUpdate, productId],
     };
 
     await this._pool.query(queryBuyer);

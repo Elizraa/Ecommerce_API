@@ -11,6 +11,7 @@ class UsersHandler {
     this.getUsersByUsernameHandler = this.getUsersByUsernameHandler.bind(this);
     this.postUploadProfileImageHandler = this.postUploadProfileImageHandler.bind(this);
     this.postUploadCoverImageHandler = this.postUploadCoverImageHandler.bind(this);
+    this.getUsersSaldoHighestHandler = this.getUsersSaldoHighestHandler.bind(this);
   }
 
   async postUserHandler(request, h) {
@@ -122,6 +123,16 @@ class UsersHandler {
     } catch (error) {
       return error;
     }
+  }
+
+  async getUsersSaldoHighestHandler() {
+    const users = await this._service.getUsersSaldoHighest();
+    return {
+      status: 'success',
+      data: {
+        users,
+      },
+    };
   }
 }
 

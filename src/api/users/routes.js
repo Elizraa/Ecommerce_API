@@ -18,6 +18,11 @@ const routes = (handler) => [
     handler: handler.getUsersByUsernameHandler,
   },
   {
+    method: 'GET',
+    path: '/users/topSaldo',
+    handler: handler.getUsersSaldoHighestHandler,
+  },
+  {
     method: 'DELETE',
     path: '/users',
     handler: handler.deleteUserByEmailHandler,
