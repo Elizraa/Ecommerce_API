@@ -112,7 +112,6 @@ class ProductsService {
       text: 'select p.id, p.name, p.category, p.price, p.on_sell onSell, p.image, u.name username from products p inner join users u on p.user_id = u.id where p.category Like $1',
       values: [categoryQuery],
     };
-    console.log(categoryQuery);
     const result = await this._pool.query(query);
     return result.rows;
   }

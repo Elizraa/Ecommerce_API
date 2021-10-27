@@ -126,6 +126,7 @@ class UsersHandler {
   }
 
   async getUsersSaldoHighestHandler() {
+    console.log('ccc');
     const users = await this._service.getUsersSaldoHighest();
     return {
       status: 'success',
