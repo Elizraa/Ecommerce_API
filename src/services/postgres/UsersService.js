@@ -18,9 +18,11 @@ class UsersService {
     const id = `user-${nanoid(16)}`;
     const saldo = Math.random() * 10;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const profile = 'https://ecomreceappbucket-wrpl.s3.ap-southeast-1.amazonaws.com/user_profile_default.svg';
+    const cover = 'https://ecomreceappbucket-wrpl.s3.ap-southeast-1.amazonaws.com/user_cover_default.jpg';
     const query = {
-      text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
-      values: [id, email, name, phoneNumber, hashedPassword, saldo],
+      text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+      values: [id, email, name, phoneNumber, hashedPassword, saldo, profile, cover],
     };
 
     const result = await this._pool.query(query);
