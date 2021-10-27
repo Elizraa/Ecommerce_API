@@ -40,9 +40,17 @@ class CollaborationsService {
     }
   }
 
-  async getWishlist() {
-    const result = await this._pool.query('select w.id, w.product_id, p.user_id,p.name,' +
-    'p.description,p.category,p.price,p.on_sell,p.image from wishlist w inner join products p on p.id = w.product_id');
+ 
+  async getWishlist(credentialId) {
+    const query = {
+      text :'select w.id, w.product_id, p.user_id,p.name,p.description,p.category,p.price,p.on_sell,p.image,u.name username from wishlist w inner join products p on p.id = w.product_id inner join users u on p.user_id = u.id where w.user_id=$1',
+      values:[credentialId]
+    };
+    const result = await this._pool.query(query);
+     if (!result.rowCount) {
+      throw new NotFoundError('Product tidak ditemukan');
+    }
+    
     return result.rows;
   }
 

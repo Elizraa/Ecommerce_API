@@ -170,13 +170,13 @@ API project in e-commerce about NFT
 ### Add Timestamp without login
 	POST 
 	/times
-	payload = productId, event  (eventnya semacam on_click/wishlist/checkout/dll)
+	param = productId, event  (eventnya semacam on_click/wishlist/checkout/dll)
 	return timesId
 
 ### Add Timestamp with login
 	POST 
 	/times/user
-	payload = productId, event  (eventnya semacam on_click/wishlist/checkout/dll)
+	param = productId, event  (eventnya semacam on_click/wishlist/checkout/dll)
 	auth = bearer accessToken
 	return timesId
 
