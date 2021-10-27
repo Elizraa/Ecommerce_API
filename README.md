@@ -50,7 +50,12 @@ API project in e-commerce about NFT
 	GET  
 	/users/{name}
 	return user
-  
+
+### Get User Top Saldo
+	GET  
+	/users/topSaldo
+	return users
+
 ### Delete user
 	DELETE  
 	/users  
@@ -104,6 +109,11 @@ API project in e-commerce about NFT
 	GET
 	/products/{ownerId}
 	return product
+
+### Get product by category
+	GET
+	/products/category/{category}
+	return products
 
 ### Update product by productId
 	GET

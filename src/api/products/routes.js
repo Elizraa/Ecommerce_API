@@ -19,7 +19,7 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/products/{category}',
+    path: '/products/category/{category}',
     handler: handler.getProductsByCategoryHandler,
   },
   {
