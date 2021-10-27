@@ -139,7 +139,7 @@ class OrdersService {
     };
     const result2 = await this._pool.query(query2);
     const { price: harga } = result2.rows[0];
-    const sisaSaldo = saldoBuyer - harga;
+    const sisaSaldo = saldoBuyer - harga - 0.0001;
     if (sisaSaldo < 0) {
       throw new ClientError('Saldo buyer tidak mencukupi');
     }
