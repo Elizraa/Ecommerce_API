@@ -77,6 +77,7 @@ class UsersService {
     const query = {
       text: 'Select id, name, saldo, profile_image from users order by saldo desc limit 7',
     };
+    console.log('aaa');
     const result = await this._pool.query(query);
     return result.rows;
   }
