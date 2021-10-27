@@ -166,5 +166,30 @@ API project in e-commerce about NFT
 	auth = bearer accessToken
 
 		
-	
-	
+## TimeStamp
+### Add Timestamp without login
+	POST 
+	/times
+	param = productId, event  (eventnya semacam on_click/wishlist/checkout/dll)
+	return timesId
+
+### Add Timestamp with login
+	POST 
+	/times/user
+	param = productId, event  (eventnya semacam on_click/wishlist/checkout/dll)
+	auth = bearer accessToken
+	return timesId
+
+### Get All Times
+	GET
+	/times
+	return times data 
+
+### Get Search history user
+	GET
+	/times/history/
+	auth = bearer accessToken
+	return products, times data
+
+
+

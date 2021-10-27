@@ -48,8 +48,9 @@ class WishlistHandler {
     }
   }
 
-  async getWishlistHandler() {
-      const wishlist = await this._service.getWishlist();
+  async getWishlistHandler(request) {
+    const { id: credentialId } = request.auth.credentials 
+    const wishlist = await this._service.getWishlist(credentialId);
       return {
         status: 'success',
         data: {

@@ -12,14 +12,24 @@ const routes = (handler) => [
         auth: 'ecommerce_jwt',
       },
     },
-    // {
-    //   method: 'GET',
-    //   path: '/wishlists',
-    //   handler: handler.getWishlistHandler,
-    //   options: {
-    //     auth: 'ecommerce_jwt',
-    //   },
-    // },
+    {
+      method: 'GET',
+      path: '/times',
+      handler: handler.getTimesHandler,
+    },
+    {
+      method: 'GET',
+      path: '/times/history',
+      handler: handler.getTimesHistoryHandler,
+      options: {
+        auth: 'ecommerce_jwt',
+      },
+    },
+    {
+      method: 'GET',
+      path: '/times/rec',
+      handler: handler.getTimesRecHandler,
+    }
   ];
   
   module.exports = routes;
