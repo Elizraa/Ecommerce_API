@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
+const ClientError = require('../../exceptions/ClientError');
 
 class ProductsService {
   constructor() {
@@ -9,12 +10,39 @@ class ProductsService {
   }
 
   async addProduct({
-    name, description, category, price, onSell, credentialId,
+    name, description, category, price, onSell, creatorCommision, credentialId,
   }) {
+    const queryUserSaldo = {
+      text: 'Select saldo from users where id = $1',
+      values: [credentialId],
+    };
+
+    const resultSaldo = await this._pool.query(queryUserSaldo);
+
+    if (!resultSaldo.rowCount) {
+      throw new InvariantError('User tidak ditemukan');
+    }
+
+    const { saldo } = resultSaldo.row[0];
+    const finalSaldo = saldo - 0.0001;
+    if (finalSaldo < 0) {
+      throw new ClientError('Saldo user tidak mencukupi');
+    }
+
+    const queryUpdateSaldo = {
+      text: 'Update users set saldo = $1 where id = $2',
+      values: [finalSaldo, credentialId],
+    };
+
+    await this._pool.query(queryUpdateSaldo);
+
     const id = `product-${nanoid(16)}`;
     const query = {
-      text: 'insert into products values($1, $2, $3, $4, $5, $6, $7) returning id',
-      values: [id, name, description, category, price, onSell, credentialId],
+      text: 'insert into products values($1, $2, $3, $4, $5, $6, $7, $8, $9) returning id',
+      values: [
+        id, name,
+        description, category, price, onSell, creatorCommision, credentialId, credentialId,
+      ],
     };
 
     const result = await this._pool.query(query);

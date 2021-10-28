@@ -30,18 +30,18 @@ const AuthenticationsValidator = require('./validator/authentications');
 
 // wishlists
 const wishlists = require('./api/wishlist');
-const WishlistService = require('./services/postgres/CollaborationsService');
-const WishlistValidator = require('./validator/collaborations');
+const WishlistService = require('./services/postgres/WishlistsService');
+const WishlistValidator = require('./validator/wishlists');
 
 // uploads
 const uploads = require('./api/uploads');
 const StorageService = require('./services/storage/StorageService');
 const UploadsValidator = require('./validator/uploads');
 
-//times
-const times = require('./api/times')
-const TimesService =  require('./services/postgres/TimesService')
-const TimesValidator = require('./validator/times')
+// times
+const times = require('./api/times');
+const TimesService = require('./services/postgres/TimesService');
+const TimesValidator = require('./validator/times');
 
 const init = async () => {
   const productsService = new ProductsService();
@@ -50,7 +50,7 @@ const init = async () => {
   const storageService = new StorageService();
   const ordersService = new OrdersService();
   const wishlistService = new WishlistService();
-  const timesService = new TimesService()
+  const timesService = new TimesService();
 
   const server = Hapi.server({
     port: process.env.PORT,

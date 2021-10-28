@@ -3,7 +3,7 @@ const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
-class CollaborationsService {
+class WishlistsService {
   constructor(cacheService) {
     this._pool = new Pool();
     this._cacheService = cacheService;
@@ -40,17 +40,15 @@ class CollaborationsService {
     }
   }
 
- 
   async getWishlist(credentialId) {
     const query = {
-      text :'select w.id, w.product_id, p.user_id,p.name,p.description,p.category,p.price,p.on_sell,p.image,u.name username from wishlist w inner join products p on p.id = w.product_id inner join users u on p.user_id = u.id where w.user_id=$1',
-      values:[credentialId]
+      text: 'select w.id, w.product_id, p.user_id,p.name,p.description,p.category,p.price,p.on_sell,p.image,u.name username from wishlist w inner join products p on p.id = w.product_id inner join users u on p.user_id = u.id where w.user_id=$1',
+      values: [credentialId],
     };
     const result = await this._pool.query(query);
-     if (!result.rowCount) {
+    if (!result.rowCount) {
       throw new NotFoundError('Product tidak ditemukan');
     }
-    
     return result.rows;
   }
 
@@ -72,7 +70,7 @@ class CollaborationsService {
 
   async verifyCollaborator(playlistId, userId) {
     const query = {
-      text: 'SELECT * FROM collaborations WHERE playlist_id = $1 AND user_id = $2',
+      text: 'SELECT * FROM wishlists WHERE playlist_id = $1 AND user_id = $2',
       values: [playlistId, userId],
     };
 
@@ -84,4 +82,4 @@ class CollaborationsService {
   }
 }
 
-module.exports = CollaborationsService;
+module.exports = WishlistsService;

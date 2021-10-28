@@ -21,11 +21,11 @@ class ProductsHandler {
       this._validator.validateProductPayload(request.payload);
       const { id: credentialId } = request.auth.credentials;
       const {
-        name, description, category, price, onSell,
+        name, description, category, price, onSell, creatorCommision,
       } = request.payload;
 
       const productId = await this._service.addProduct({
-        name, description, category, price, onSell, credentialId,
+        name, description, category, price, onSell, creatorCommision, credentialId,
       });
 
       const response = h.response({

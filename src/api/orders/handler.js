@@ -14,10 +14,10 @@ class OrdersHandler {
     try {
       this._validator.validateOrderPayload(request.payload);
 
-      const { productId } = request.payload;
+      const { productId, finalPrice } = request.payload;
       const { id: userId } = request.auth.credentials;
 
-      const orderId = await this._service.addOrder(userId, productId);
+      const orderId = await this._service.addOrder(userId, productId, finalPrice);
 
       const response = h.response({
         status: 'success',

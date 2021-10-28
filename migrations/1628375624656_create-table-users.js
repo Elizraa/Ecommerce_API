@@ -28,7 +28,15 @@ exports.up = (pgm) => {
       type: 'boolean',
       notNull: true,
     },
+    creator_commisioon: {
+      type: 'float8',
+      notNull: true,
+    },
     user_id: {
+      type: 'VARCHAR(50)',
+      notNull: true,
+    },
+    creator_id: {
       type: 'VARCHAR(50)',
       notNull: true,
     },
@@ -37,6 +45,7 @@ exports.up = (pgm) => {
     },
   });
   pgm.addConstraint('products', 'fk_products.user_id_users.id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
+  pgm.addConstraint('products', 'fk_products.creator_id_users.id', 'FOREIGN KEY(creator_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {

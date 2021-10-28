@@ -10,8 +10,8 @@ class OrdersService {
     // this._cacheService = cacheService;
   }
 
-  async addOrder(userbuyerId, productId) {
-    const saldoAkhir = await this.verifySaldo(userbuyerId, productId);
+  async addOrder(userbuyerId, productId, finalPrice) {
+    const saldoAkhir = await this.verifySaldo(userbuyerId, finalPrice);
     const id = `order-${nanoid(16)}`;
     const status = true;
     const date = new Date().toISOString();
@@ -130,7 +130,7 @@ class OrdersService {
     }
   }
 
-  async verifySaldo(buyerId, productId) {
+  async verifySaldo(buyerId, finalPrice) {
     const query1 = {
       text: 'Select saldo from users where id = $1',
       values: [buyerId],
@@ -139,13 +139,13 @@ class OrdersService {
 
     const { saldo: saldoBuyer } = result1.rows[0];
 
-    const query2 = {
-      text: 'Select price from products where id = $1',
-      values: [productId],
-    };
-    const result2 = await this._pool.query(query2);
-    const { price: harga } = result2.rows[0];
-    const sisaSaldo = saldoBuyer - harga - 0.0001;
+    // const query2 = {
+    //   text: 'Select price from products where id = $1',
+    //   values: [productId],
+    // };
+    // const result2 = await this._pool.query(query2);
+    // const { price: harga } = result2.rows[0];
+    const sisaSaldo = saldoBuyer - finalPrice;
     if (sisaSaldo < 0) {
       throw new ClientError('Saldo buyer tidak mencukupi');
     }
