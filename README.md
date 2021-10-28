@@ -116,7 +116,7 @@ API project in e-commerce about NFT
 	return products
 
 ### Update product by productId
-	GET
+	PUT
 	/products/{productId}
 	param : name, description, category, price, onSell
 
