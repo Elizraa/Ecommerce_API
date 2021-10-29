@@ -26,7 +26,7 @@ exports.up = pgm => {
         }
       });
     
-      pgm.addConstraint('timesr', 'fk_timess.users_id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
+      pgm.addConstraint('times', 'fk_timess.users_id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
       pgm.addConstraint('orders', 'fk_times.product_id', 'FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE');
 
 };
