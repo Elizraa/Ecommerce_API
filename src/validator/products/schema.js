@@ -6,7 +6,7 @@ const ProductPayloadSchema = Joi.object({
   category: Joi.string().required(),
   price: Joi.number().required(),
   onSell: Joi.boolean().required(),
-  creatorCommisioon: Joi.number().required(),
+  creatorCommission: Joi.number().required(),
 });
 
 module.exports = { ProductPayloadSchema };

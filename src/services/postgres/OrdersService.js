@@ -16,12 +16,15 @@ class OrdersService {
     const status = true;
     const date = new Date().toISOString();
     const querySeller = {
-      text: 'select user_id, on_sell from products where id = $1',
+      text: 'select p.user_id sellerId, p.on_sell onSell, p.creator_id creatorId, p.creator_commission creatorCommission, u.saldo sellerSaldo from products p inner join users u on p.user_id = u.id where p.id = $1',
       values: [productId],
     };
     const result1 = await this._pool.query(querySeller);
-    const { user_id: userSellerId, on_sell: onSell } = result1.rows[0];
-    if (userbuyerId === userSellerId) {
+    const {
+      sellerId, onSell, creatorId, creatorCommission, sellerSaldo,
+    } = result1.rows[0];
+
+    if (userbuyerId === sellerId) {
       throw new ClientError('User yang sama');
     }
     if (onSell === false) {
@@ -29,7 +32,7 @@ class OrdersService {
     }
     const query = {
       text: 'insert into orders values($1, $2, $3, $4, $5, $6) returning id',
-      values: [id, status, date, userbuyerId, userSellerId, productId],
+      values: [id, status, date, userbuyerId, sellerId, productId],
     };
 
     const result = await this._pool.query(query);
@@ -51,6 +54,23 @@ class OrdersService {
     };
 
     await this._pool.query(queryBuyerSaldo);
+
+    const persenanCreator = finalPrice * (creatorCommission / 100);
+
+    const saldoSellerAkhir = sellerSaldo + (finalPrice - persenanCreator);
+    const querySellerSaldo = {
+      text: 'update users set saldo = $1 where id=$2',
+      values: [saldoSellerAkhir, sellerId],
+    };
+
+    await this._pool.query(querySellerSaldo);
+
+    const queryCreatorSaldo = {
+      text: 'update users set saldo = $1 where id=$2',
+      values: [persenanCreator, creatorId],
+    };
+
+    await this._pool.query(queryCreatorSaldo);
 
     return result.rows[0].id;
   }
@@ -150,6 +170,23 @@ class OrdersService {
       throw new ClientError('Saldo buyer tidak mencukupi');
     }
     return sisaSaldo;
+  }
+
+  async NationalityFee(buyerId, sellerNationality) {
+    const queryBuyer = {
+      text: 'Select u.nationalty, n.tax from users u inner join nationaity n on u.nationalty = n.iso3 where id = $1',
+      values: [buyerId],
+    };
+
+    const result1 = await this._pool.query(queryBuyer);
+
+    const { nationality: buyerNationality, tax } = result1.rows[0];
+
+    if (buyerNationality === sellerNationality) {
+      const zero = 0;
+      return { buyerNationality, sellerNationality, zero };
+    }
+    return { buyerNationality, sellerNationality, tax };
   }
 }
 

@@ -28,7 +28,7 @@ exports.up = (pgm) => {
       type: 'boolean',
       notNull: true,
     },
-    creator_commisioon: {
+    creator_commission: {
       type: 'float8',
       notNull: true,
     },

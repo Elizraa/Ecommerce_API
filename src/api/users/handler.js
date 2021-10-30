@@ -18,10 +18,10 @@ class UsersHandler {
     try {
       this._validator.validateUserPayload(request.payload);
       const {
-        name, email, phone_number: phoneNumber,nationality, password,
+        name, email, phone_number: phoneNumber, nationality, password,
       } = request.payload;
       const userId = await this._service.addUser({
-        name, email, phoneNumber,nationality, password,
+        name, email, phoneNumber, nationality, password,
       });
 
       const response = h.response({

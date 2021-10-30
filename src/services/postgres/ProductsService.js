@@ -10,7 +10,7 @@ class ProductsService {
   }
 
   async addProduct({
-    name, description, category, price, onSell, creatorCommision, credentialId,
+    name, description, category, price, onSell, creatorCommission, credentialId,
   }) {
     const queryUserSaldo = {
       text: 'Select saldo from users where id = $1',
@@ -22,26 +22,18 @@ class ProductsService {
     if (!resultSaldo.rowCount) {
       throw new InvariantError('User tidak ditemukan');
     }
-
-    const { saldo } = resultSaldo.row[0];
+    const { saldo } = resultSaldo.rows[0];
     const finalSaldo = saldo - 0.0001;
     if (finalSaldo < 0) {
       throw new ClientError('Saldo user tidak mencukupi');
     }
-
-    const queryUpdateSaldo = {
-      text: 'Update users set saldo = $1 where id = $2',
-      values: [finalSaldo, credentialId],
-    };
-
-    await this._pool.query(queryUpdateSaldo);
 
     const id = `product-${nanoid(16)}`;
     const query = {
       text: 'insert into products values($1, $2, $3, $4, $5, $6, $7, $8, $9) returning id',
       values: [
         id, name,
-        description, category, price, onSell, creatorCommision, credentialId, credentialId,
+        description, category, price, onSell, creatorCommission, credentialId, credentialId,
       ],
     };
 
@@ -50,6 +42,13 @@ class ProductsService {
     if (!result.rows[0].id) {
       throw new InvariantError('Product gagal ditambahkan');
     }
+
+    const queryUpdateSaldo = {
+      text: 'Update users set saldo = $1 where id = $2',
+      values: [finalSaldo, credentialId],
+    };
+
+    await this._pool.query(queryUpdateSaldo);
 
     return result.rows[0].id;
   }
@@ -66,7 +65,7 @@ class ProductsService {
 
   async getProductById(id) {
     const query = {
-      text: 'select p.name, p.description, p.category, p.price, p.on_sell onSell, p.image, u.name username, u.profile_image profileImage from products p inner join users u on p.user_id = u.id where p.id = $1',
+      text: 'select p.name, p.description, p.category, p.price, p.on_sell onSell, p.image, u.name username, u.profile_image profileImage, u.nationality from products p inner join users u on p.user_id = u.id where p.id = $1',
       values: [id],
     };
     const result = await this._pool.query(query);
@@ -137,7 +136,7 @@ class ProductsService {
   async getProductByCategory(category) {
     const categoryQuery = `%${category}%`;
     const query = {
-      text: 'select p.id, p.name, p.category, p.price, p.on_sell onSell, p.image, u.name username from products p inner join users u on p.user_id = u.id where p.category Like $1',
+      text: 'select p.id, p.name, p.category, p.price, p.on_sell onSell, p.image, u.name username from products p inner join users u on p.user_id = u.id where upper(p.category) Like upper($1)',
       values: [categoryQuery],
     };
     const result = await this._pool.query(query);

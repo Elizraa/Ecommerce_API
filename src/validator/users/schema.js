@@ -5,7 +5,7 @@ const UserPayloadSchema = Joi.object({
   name: Joi.string().required(),
   phone_number: Joi.string().required(),
   nationality: Joi.string().required(),
-  password: Joi.string().required()
+  password: Joi.string().required(),
 });
 
 module.exports = { UserPayloadSchema };

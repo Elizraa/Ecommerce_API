@@ -8,6 +8,7 @@ class OrdersHandler {
     this.getOrdersSellerHandler = this.getOrdersSellerHandler.bind(this);
     this.deleteOrderByIdHandler = this.deleteOrderByIdHandler.bind(this);
     this.getOrdersHistoryHandler = this.getOrdersHistoryHandler.bind(this);
+    this.getTaxNationalityHandler = this.getTaxNationalityHandler.bind(this);
   }
 
   async postOrderHandler(request, h) {
@@ -77,6 +78,20 @@ class OrdersHandler {
       return {
         status: 'success',
         message: 'Order berhasil dihapus',
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getTaxNationalityHandler(request) {
+    try {
+      const { sellerNationality } = request.params;
+      const { id: credentialId } = request.auth.credentials;
+      const data = await this._service.NationalityFee(credentialId, sellerNationality);
+      return {
+        status: 'success',
+        data,
       };
     } catch (error) {
       return error;

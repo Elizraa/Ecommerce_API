@@ -39,6 +39,14 @@ const routes = (handler) => [
       auth: 'ecommerce_jwt',
     },
   },
+  {
+    method: 'GET',
+    path: '/orders/tax/{sellerNationality}',
+    handler: handler.getTaxNationalityHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
+  },
 ];
 
 module.exports = routes;
