@@ -145,10 +145,16 @@ API project in e-commerce about NFT
 	payload = wishlistId  
 
 ## Orders
+### Get Tax Nationalty Fee
+	GET
+	/orders/{sellerNationality}
+	auth = bearer accessToken 
+	return buyerNationality, sellerNationality, tax
+
 ### Add Order
 	POST
 	/orders
-	payload = productId
+	payload = productId, finalPrice
 	auth = bearer accessToken
 	return orderId
 
