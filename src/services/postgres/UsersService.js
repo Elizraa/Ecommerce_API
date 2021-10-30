@@ -21,7 +21,7 @@ class UsersService {
     const profile = 'https://ecomreceappbucket-wrpl.s3.ap-southeast-1.amazonaws.com/user_profile_default.svg';
     const cover = 'https://ecomreceappbucket-wrpl.s3.ap-southeast-1.amazonaws.com/user_cover_default.jpg';
     const query = {
-      text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+      text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
       values: [id, email, name, phoneNumber,nationality, hashedPassword, saldo, profile, cover],
     };
 
