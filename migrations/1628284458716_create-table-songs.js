@@ -22,7 +22,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     nationality: {
-      type: 'VARCHAR(50)',
+      type: 'char(3)',
       notNull: true,
     },
     password: {
