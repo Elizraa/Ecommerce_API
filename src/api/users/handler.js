@@ -21,7 +21,7 @@ class UsersHandler {
         name, email, phone_number: phoneNumber, password,
       } = request.payload;
       const userId = await this._service.addUser({
-        name, email, phoneNumber, password,
+        name, email, phoneNumber,nationality, password,
       });
 
       const response = h.response({
