@@ -79,7 +79,7 @@ API project in e-commerce about NFT
 ### Add product
 	POST
 	/products
-	param : name, description, category, price, onSell, creatorCommissioin
+	param : name, description, category, price, onSell, creatorCommission
 	auth : bearer accessToken
 	return productId
 
