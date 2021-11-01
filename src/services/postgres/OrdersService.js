@@ -190,10 +190,10 @@ class OrdersService {
   }
   async getTopBuyers(){
     const result = await this._pool.query(
-      'select buyer, sum(price),test.uname, test.profile_image from ' +
-      '(Select o.id, o.userbuyer_id buyer,u.name uname,u.profile_image ,p.price from orders o ' +
+      'select buyer_Id, sum(price),test.uname, test.profile_image from ' +
+      '(Select o.id, o.userbuyer_id buyer_Id,u.name uname,u.profile_image ,p.price from orders o ' +
       'inner join products p on p.id = o.product_id inner join users u on u.id = o.userbuyer_id)as test '+
-      'group by buyer,test.uname,test.profile_image order by sum DESC'
+      'group by buyerId,test.uname,test.profile_image order by sum DESC'
     );
     return result.rows;
   }

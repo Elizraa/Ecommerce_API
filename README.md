@@ -181,6 +181,13 @@ API project in e-commerce about NFT
 	/orders/{orderId}
 	auth = bearer accessToken
 
+### Get TopBuyer 
+	GET
+	/orders/topbuyers
+	return buyerId, sum, uname, profileImage
+	
+
+
 		
 ## TimeStamp
 ### Add Timestamp without login
