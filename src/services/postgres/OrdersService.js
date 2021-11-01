@@ -188,12 +188,13 @@ class OrdersService {
     }
     return { buyerNationality, sellerNationality, tax };
   }
-  async getTopBuyers(){
+
+  async getTopBuyers() {
     const result = await this._pool.query(
-      'select buyer, sum(price),test.uname, test.profile_image from ' +
-      '(Select o.id, o.userbuyer_id buyer,u.name uname,u.profile_image ,p.price from orders o ' +
-      'inner join products p on p.id = o.product_id inner join users u on u.id = o.userbuyer_id)as test '+
-      'group by buyer,test.uname,test.profile_image order by sum DESC'
+      'select buyer, sum(price),test.uname, test.profile_image from '
+      + '(Select o.id, o.userbuyer_id buyer,u.name uname,u.profile_image ,p.price from orders o '
+      + 'inner join products p on p.id = o.product_id inner join users u on u.id = o.userbuyer_id)as test '
+      + 'group by buyer,test.uname,test.profile_image order by sum DESC',
     );
     return result.rows;
   }
