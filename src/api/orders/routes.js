@@ -51,7 +51,7 @@ const routes = (handler) => [
     method: 'GET',
     path: '/orders/topbuyers',
     handler: handler.getTopBuyersHandler,
-  }
+  },
 ];
 
 module.exports = routes;
