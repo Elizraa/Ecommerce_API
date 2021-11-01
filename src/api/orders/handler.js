@@ -9,7 +9,7 @@ class OrdersHandler {
     this.deleteOrderByIdHandler = this.deleteOrderByIdHandler.bind(this);
     this.getOrdersHistoryHandler = this.getOrdersHistoryHandler.bind(this);
     this.getTaxNationalityHandler = this.getTaxNationalityHandler.bind(this);
-    this.getTopBuyersHandler = this.getTopBuyersHandler.bind(this)
+    this.getTopBuyersHandler = this.getTopBuyersHandler.bind(this);
   }
 
   async postOrderHandler(request, h) {
@@ -98,6 +98,7 @@ class OrdersHandler {
       return error;
     }
   }
+
   async getTopBuyersHandler() {
     try {
       const data = await this._service.getTopBuyers();
