@@ -12,7 +12,7 @@ class WishlistHandler {
 
   async postWishlistHandler(request, h) {
     try {
-      this._validator.validateCollaborationPayload(request.payload);
+      this._validator.validateWishlistPayload(request.payload);
       const { id: credentialId } = request.auth.credentials;
       const {
         productId,
@@ -49,16 +49,14 @@ class WishlistHandler {
   }
 
   async getWishlistHandler(request) {
-    const { id: credentialId } = request.auth.credentials 
+    const { id: credentialId } = request.auth.credentials;
     const wishlist = await this._service.getWishlist(credentialId);
-      return {
-        status: 'success',
-        data: {
-          wishlist,
-        },
-      };
-     
-    
+    return {
+      status: 'success',
+      data: {
+        wishlist,
+      },
+    };
   }
 }
 
