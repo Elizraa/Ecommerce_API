@@ -47,6 +47,11 @@ const routes = (handler) => [
       auth: 'ecommerce_jwt',
     },
   },
+  {
+    method: 'GET',
+    path: '/orders/topbuyers',
+    handler: handler.getTopBuyersHandler,
+  }
 ];
 
 module.exports = routes;

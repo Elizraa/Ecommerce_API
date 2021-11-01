@@ -22,6 +22,11 @@ const routes = (handler) => [
     path: '/users/topSaldo',
     handler: handler.getUsersSaldoHighestHandler,
   },
+  // {
+  //   method: 'GET',
+  //   path: '/users/topBuyer',
+  //   handler: handler.getTopBuyertHandler,
+  // },
   {
     method: 'DELETE',
     path: '/users',

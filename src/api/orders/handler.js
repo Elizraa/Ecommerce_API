@@ -9,6 +9,7 @@ class OrdersHandler {
     this.deleteOrderByIdHandler = this.deleteOrderByIdHandler.bind(this);
     this.getOrdersHistoryHandler = this.getOrdersHistoryHandler.bind(this);
     this.getTaxNationalityHandler = this.getTaxNationalityHandler.bind(this);
+    this.getTopBuyersHandler = this.getTopBuyersHandler.bind(this)
   }
 
   async postOrderHandler(request, h) {
@@ -89,6 +90,17 @@ class OrdersHandler {
       const { sellerNationality } = request.params;
       const { id: credentialId } = request.auth.credentials;
       const data = await this._service.NationalityFee(credentialId, sellerNationality);
+      return {
+        status: 'success',
+        data,
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+  async getTopBuyersHandler() {
+    try {
+      const data = await this._service.getTopBuyers();
       return {
         status: 'success',
         data,
