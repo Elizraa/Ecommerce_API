@@ -138,6 +138,12 @@ API project in e-commerce about NFT
 	/wishlists  
 	auth : bearer accessToken  
 	return wishlist, product  
+
+### Verify Wishlists
+	GET  
+	/wishlists/{productId}
+	auth : bearer accessToken  
+	return inWishlist
   
 ### Delete wishlist  
 	Delete  
@@ -188,8 +194,6 @@ API project in e-commerce about NFT
 	return buyerId, sum, uname, profileImage
 	
 
-
-		
 ## TimeStamp
 ### Add Timestamp without login
 	POST 
