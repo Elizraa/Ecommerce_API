@@ -142,6 +142,7 @@ API project in e-commerce about NFT
 ### Delete wishlist  
 	Delete  
 	/wishlists/{wishlistId}  
+	auth : bearer accessToken  
 	payload = wishlistId  
 
 ## Orders
