@@ -24,17 +24,20 @@ class OrdersService {
     if (!result1.rowCount) {
       throw new InvariantError('User atau product tidak ditemukan');
     }
-
     const {
-      sellerId, onSell, creatorId, creatorCommission, sellerSaldo,
+      sellerid: sellerId,
+      onsell: onSell,
+      creatorid: creatorId, creatorcommission: creatorCommission, sellersaldo: sellerSaldo,
     } = result1.rows[0];
 
     if (userbuyerId === sellerId) {
       throw new ClientError('User yang sama');
     }
-    if (onSell === false) {
+
+    if (!onSell) {
       throw new ClientError('Product tidak dijual');
     }
+
     const query = {
       text: 'insert into orders values($1, $2, $3, $4, $5, $6) returning id',
       values: [id, status, date, userbuyerId, sellerId, productId],
