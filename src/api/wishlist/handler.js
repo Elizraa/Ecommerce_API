@@ -6,6 +6,7 @@ class WishlistHandler {
     this.postWishlistHandler = this.postWishlistHandler.bind(this);
     this.deleteWishlistHandler = this.deleteWishlistHandler.bind(this);
     this.getWishlistHandler = this.getWishlistHandler.bind(this);
+    this.getVerifyWishlistHandler = this.getVerifyWishlistHandler.bind(this);
     // this.deleteUserByEmailHandler = this.deleteUserByEmailHandler.bind(this);
     // this.getWishlistByIdHandler = this.getWishlistByIdHandler.bind(this);
   }
@@ -55,6 +56,18 @@ class WishlistHandler {
       status: 'success',
       data: {
         wishlist,
+      },
+    };
+  }
+
+  async getVerifyWishlistHandler(request) {
+    const { id: credentialId } = request.auth.credentials;
+    const productId = request.params;
+    const inWihslist = await this._service.verifyWishlists(credentialId, productId);
+    return {
+      status: 'success',
+      data: {
+        inWihslist,
       },
     };
   }

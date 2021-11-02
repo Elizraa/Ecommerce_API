@@ -23,6 +23,14 @@ const routes = (handler) => [
       auth: 'ecommerce_jwt',
     },
   },
+  {
+    method: 'GET',
+    path: '/wishlists/{productId}',
+    handler: handler.getVerifyWishlistHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

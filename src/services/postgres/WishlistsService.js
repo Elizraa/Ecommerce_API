@@ -80,6 +80,18 @@ class WishlistsService {
       throw new InvariantError('Kolaborasi gagal diverifikasi');
     }
   }
+
+  async verifyWishlists(userId, productId) {
+    const query = {
+      text: 'Select * from wishlists where user_id = $1 and product_id = $2',
+      values: [userId, productId],
+    };
+    const result = await this._pool.query(query);
+    if (!result.rowCount) {
+      return true;
+    }
+    return false;
+  }
 }
 
 module.exports = WishlistsService;

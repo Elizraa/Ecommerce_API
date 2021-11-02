@@ -65,7 +65,7 @@ class ProductsService {
 
   async getProductById(id) {
     const query = {
-      text: 'select r.name, r.description, r.category, r.price, r.onSell, r.image, r.usernameOwner, r.profileImageOwner, r.nationalityOwner, us.name usernameCrator, us.profile_image profileImageCreator from (select p.creator_id, p.name, p.description, p.category, p.price, p.on_sell onSell, p.image, u.name usernameOwner, u.profile_image profileImageOwner, u.nationality nationalityOwner from products p inner join users u on p.user_id = u.id where p.id = $1) r inner join users us on r.creator_id = us.id',
+      text: 'select r.name, r.description, r.category, r.price, r.onSell, r.image, r.usernameOwner, r.profileImageOwner, r.nationalityOwner, us.name usernameCreator, us.profile_image profileImageCreator from (select p.creator_id, p.name, p.description, p.category, p.price, p.on_sell onSell, p.image, u.name usernameOwner, u.profile_image profileImageOwner, u.nationality nationalityOwner from products p inner join users u on p.user_id = u.id where p.id = $1) r inner join users us on r.creator_id = us.id',
       values: [id],
     };
     const result = await this._pool.query(query);
