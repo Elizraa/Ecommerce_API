@@ -256,3 +256,4 @@ DROP COLUMN iso,
 DROP COLUMN cap,
 DROP COLUMN numcode,
 DROP COLUMN phonecode;
+DROP COLUMN iso3;

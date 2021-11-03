@@ -152,7 +152,7 @@ API project in e-commerce about NFT
 	payload = wishlistId  
 
 ## Orders
-### Get Tax Nationalty Fee
+### Get Tax Nationality Fee
 	GET
 	/orders/tax/{sellerNationality}
 	auth = bearer accessToken 

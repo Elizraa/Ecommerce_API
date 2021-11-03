@@ -122,9 +122,10 @@ class ProductsHandler {
   }
 
   async postUploadImageHandler(request, h) {
+    const { id } = request.params;
     try {
+      console.log(request.payload);
       const { data } = request.payload;
-      const { id } = request.params;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
       // console.log(fileLocation);
@@ -139,6 +140,7 @@ class ProductsHandler {
       response.code(201);
       return response;
     } catch (error) {
+      await this._service.deleteProductById(id);
       return error;
     }
   }
