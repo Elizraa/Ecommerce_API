@@ -85,7 +85,7 @@ API project in e-commerce about NFT
 
 ### Add image product
 	POST
-	/products/image/{productId}
+	/product/image/{productId}
 	payload : image
 	auth : bearer accessToken
 	return urlImage
@@ -154,7 +154,7 @@ API project in e-commerce about NFT
 ## Orders
 ### Get Tax Nationalty Fee
 	GET
-	/orders/{sellerNationality}
+	/orders/tax/{sellerNationality}
 	auth = bearer accessToken 
 	return buyerNationality, sellerNationality, tax
 

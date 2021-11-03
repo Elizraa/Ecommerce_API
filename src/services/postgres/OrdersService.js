@@ -182,7 +182,7 @@ class OrdersService {
 
   async NationalityFee(buyerId, sellerNationality) {
     const queryBuyer = {
-      text: 'Select u.nationalty, n.tax from users u inner join nationaity n on u.nationalty = n.iso3 where id = $1',
+      text: 'Select u.nationality, n.tax from users u inner join nationality n on u.nationality = n.iso3 where id = $1',
       values: [buyerId],
     };
 
