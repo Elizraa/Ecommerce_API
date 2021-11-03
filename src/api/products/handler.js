@@ -124,6 +124,7 @@ class ProductsHandler {
   async postUploadImageHandler(request, h) {
     const { id } = request.params;
     try {
+      console.log(request.params);
       console.log(request.payload);
       const { data } = request.payload;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
