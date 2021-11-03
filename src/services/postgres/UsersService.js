@@ -61,7 +61,7 @@ class UsersService {
 
   async getUserById(userId) {
     const query = {
-      text: 'SELECT id, name, phone_number, saldo, profile_image, cover_image FROM users WHERE id = $1',
+      text: 'SELECT id, name, phone_number, saldo, profile_image, cover_image, nationality FROM users WHERE id = $1',
       values: [userId],
     };
 
@@ -116,7 +116,7 @@ class UsersService {
 
   async getUsersByName(name) {
     const query = {
-      text: 'SELECT name, phone_number, saldo, profile_image, cover_image FROM users WHERE name = $1',
+      text: 'SELECT name, phone_number, saldo, profile_image, cover_image, nationality FROM users WHERE name = $1',
       values: [name],
     };
     const result = await this._pool.query(query);
