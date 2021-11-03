@@ -124,6 +124,7 @@ class ProductsHandler {
   async postUploadImageHandler(request, h) {
     const { id } = request.params;
     try {
+      console.log(request.payload);
       const { data } = request.payload;
       this._validatorImage.validateImageHeaders(data.hapi.headers);
       const fileLocation = await this._serviceImage.writeFile(data, data.hapi);
