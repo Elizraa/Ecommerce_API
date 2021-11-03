@@ -188,12 +188,13 @@ class OrdersService {
 
     const result1 = await this._pool.query(queryBuyer);
 
-    const { nationality: buyerNationality, tax } = result1.rows[0];
+    const { nationality: buyerNationality } = result1.rows[0];
 
     if (buyerNationality === sellerNationality) {
-      const zero = 0;
-      return { buyerNationality, sellerNationality, zero };
+      const tax = 0;
+      return { buyerNationality, sellerNationality, tax };
     }
+    const { tax } = result1.rows[0];
     return { buyerNationality, sellerNationality, tax };
   }
 
