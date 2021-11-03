@@ -123,6 +123,7 @@ API project in e-commerce about NFT
 ### Delete product by productId
 	DELETE
 	/products/{productId}
+	auth : bearer accessToken  
 
 
 ## Wishlist
