@@ -13,6 +13,14 @@ const routes = (handler) => [
     },
   },
   {
+    method: 'POST',
+    path: '/users/saldo',
+    handler: handler.postSaldoHandler,
+    options: {
+      auth: 'ecommerce_jwt',
+    },
+  },
+  {
     method: 'GET',
     path: '/users/{name}',
     handler: handler.getUsersByUsernameHandler,

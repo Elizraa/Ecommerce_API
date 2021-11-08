@@ -33,6 +33,27 @@ class UsersService {
     return result.rows[0].id;
   }
 
+  async addSaldo(saldo, credentialId){
+    const query = {
+      text : 'SELECT saldo FROM users WHERE id = $1',
+      values : [credentialId]
+    }
+    const result = await this._pool.query(query);
+    const temp = result.rows[0].saldo;
+    // console.log(credentialId)
+    console.log(temp)
+    const finalSaldo = temp + saldo
+
+    const query1 ={
+      text : 'UPDATE users SET saldo = $1 where id = $2',
+      values : [finalSaldo, credentialId]
+    }
+
+    const result1 = await this._pool.query(query1);
+    return finalSaldo
+
+  }
+
   async verifyNewName(name) {
     const query = {
       text: 'SELECT name FROM users WHERE name = $1',
@@ -72,6 +93,7 @@ class UsersService {
     }
     return result.rows[0];
   }
+  
 
   async getUsersSaldoHighest() {
     const query = {

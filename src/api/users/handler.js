@@ -12,6 +12,7 @@ class UsersHandler {
     this.postUploadProfileImageHandler = this.postUploadProfileImageHandler.bind(this);
     this.postUploadCoverImageHandler = this.postUploadCoverImageHandler.bind(this);
     this.getUsersSaldoHighestHandler = this.getUsersSaldoHighestHandler.bind(this);
+    this.postSaldoHandler =  this.postSaldoHandler.bind(this);
   }
 
   async postUserHandler(request, h) {
@@ -27,6 +28,30 @@ class UsersHandler {
       const response = h.response({
         status: 'success',
         message: 'User berhasil ditambahkan',
+        data: {
+          userId,
+        },
+      });
+      response.code(201);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async postSaldoHandler(request, h) {
+    try {
+      const { id: credentialId } = request.auth.credentials;
+      const {
+        saldo
+      } = request.payload;
+      const userId = await this._service.addSaldo(
+       saldo, credentialId
+      );
+
+      const response = h.response({
+        status: 'success',
+        message: 'Saldo berhasil ditambahkan',
         data: {
           userId,
         },
