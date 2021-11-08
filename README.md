@@ -51,6 +51,13 @@ API project in e-commerce about NFT
 	/users/{name}
 	return user
 
+### Saldo
+    POST
+	/users/saldo
+	auth = bearer accessToken
+	param = saldo
+	return finalSaldo
+
 ### Get User Top Saldo
 	GET  
 	/users/topSaldo
