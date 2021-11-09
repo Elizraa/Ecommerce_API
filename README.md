@@ -125,7 +125,8 @@ API project in e-commerce about NFT
 ### Update product by productId
 	PUT
 	/products/{productId}
-	param : name, description, category, price, onSell
+	param : name, description, category, price, onSell, creatorCommission
+	auth : bearer accessToken
 
 ### Delete product by productId
 	DELETE
