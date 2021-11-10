@@ -12,6 +12,7 @@ class OrdersService {
 
   async addOrder(userbuyerId, productId, finalPrice) {
     const saldoAkhir = await this.verifySaldo(userbuyerId, finalPrice);
+    //console.log("saldo akhir =" + saldoAkhir)
     const id = `order-${nanoid(16)}`;
     const status = true;
     const date = new Date().toISOString();
@@ -30,9 +31,9 @@ class OrdersService {
       price,
       creatorid: creatorId, creatorcommission: creatorCommission, sellersaldo: sellerSaldo,
     } = result1.rows[0];
-
+    //console.log()
     const queryOwner = {
-      text: 'select u.saldo from users where id = $1',
+      text: 'select u.saldo from users u where id = $1',
       values: [creatorId],
     };
     const result2 = await this._pool.query(queryOwner);
@@ -68,12 +69,14 @@ class OrdersService {
       text: 'Update users set saldo = $1 where id=$2',
       values: [saldoAkhir, userbuyerId],
     };
+    
 
     await this._pool.query(queryBuyerSaldo);
 
-    const persenanCreator = price * (creatorCommission / 100);
+    const persenanCreator = finalPrice * (creatorCommission / 100);
     const saldoAkhriOwner = saldoOwner + persenanCreator;
-    const saldoSellerAkhir = sellerSaldo + (price - persenanCreator);
+    const saldoSellerAkhir = sellerSaldo + (finalPrice - persenanCreator);
+    //('seller = ' + saldoSellerAkhir + " owner = " + saldoAkhriOwner)
     const querySellerSaldo = {
       text: 'update users set saldo = $1 where id=$2',
       values: [saldoSellerAkhir, sellerId],
@@ -174,7 +177,7 @@ class OrdersService {
     const result1 = await this._pool.query(query1);
 
     const { saldo: saldoBuyer } = result1.rows[0];
-
+  
     // const query2 = {
     //   text: 'Select price from products where id = $1',
     //   values: [productId],
@@ -185,6 +188,7 @@ class OrdersService {
     if (sisaSaldo < 0) {
       throw new ClientError('Saldo buyer tidak mencukupi');
     }
+   // console.log(sisaSaldo)
     return sisaSaldo;
   }
 
