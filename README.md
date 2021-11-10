@@ -51,7 +51,7 @@ API project in e-commerce about NFT
 	/users/{name}
 	return user
 
-### Saldo
+### Add Saldo
     POST
 	/users/saldo
 	auth = bearer accessToken
