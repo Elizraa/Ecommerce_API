@@ -16,7 +16,7 @@ class OrdersService {
     const status = true;
     const date = new Date().toISOString();
     const querySeller = {
-      text: 'select p.user_id sellerId, p.on_sell onSell, p.creator_id creatorId, p.creator_commission creatorCommission, u.saldo sellerSaldo from products p inner join users u on p.user_id = u.id where p.id = $1',
+      text: 'select p.user_id sellerId, p.on_sell onSell, p.creator_id creatorId, p.price, p.creator_commission creatorCommission, u.saldo sellerSaldo from products p inner join users u on p.user_id = u.id where p.id = $1',
       values: [productId],
     };
     const result1 = await this._pool.query(querySeller);
@@ -27,8 +27,16 @@ class OrdersService {
     const {
       sellerid: sellerId,
       onsell: onSell,
+      price,
       creatorid: creatorId, creatorcommission: creatorCommission, sellersaldo: sellerSaldo,
     } = result1.rows[0];
+
+    const queryOwner = {
+      text: 'select u.saldo from users where id = $1',
+      values: [creatorId],
+    };
+    const result2 = await this._pool.query(queryOwner);
+    const { saldo: saldoOwner } = result2.rows[0];
 
     if (userbuyerId === sellerId) {
       throw new ClientError('User yang sama');
@@ -63,9 +71,9 @@ class OrdersService {
 
     await this._pool.query(queryBuyerSaldo);
 
-    const persenanCreator = finalPrice * (creatorCommission / 100);
-
-    const saldoSellerAkhir = sellerSaldo + (finalPrice - persenanCreator);
+    const persenanCreator = price * (creatorCommission / 100);
+    const saldoAkhriOwner = saldoOwner + persenanCreator;
+    const saldoSellerAkhir = sellerSaldo + (price - persenanCreator);
     const querySellerSaldo = {
       text: 'update users set saldo = $1 where id=$2',
       values: [saldoSellerAkhir, sellerId],
@@ -75,7 +83,7 @@ class OrdersService {
 
     const queryCreatorSaldo = {
       text: 'update users set saldo = $1 where id=$2',
-      values: [persenanCreator, creatorId],
+      values: [saldoAkhriOwner, creatorId],
     };
 
     await this._pool.query(queryCreatorSaldo);
