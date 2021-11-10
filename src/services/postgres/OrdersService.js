@@ -73,9 +73,9 @@ class OrdersService {
 
     await this._pool.query(queryBuyerSaldo);
 
-    const persenanCreator = finalPrice * (creatorCommission / 100);
+    const persenanCreator = price * (creatorCommission / 100);
     const saldoAkhriOwner = saldoOwner + persenanCreator;
-    const saldoSellerAkhir = sellerSaldo + (finalPrice - persenanCreator);
+    const saldoSellerAkhir = sellerSaldo + (price - persenanCreator);
     //('seller = ' + saldoSellerAkhir + " owner = " + saldoAkhriOwner)
     const querySellerSaldo = {
       text: 'update users set saldo = $1 where id=$2',
