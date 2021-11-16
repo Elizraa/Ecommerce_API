@@ -42,7 +42,7 @@ class UsersService {
     const result = await this._pool.query(query);
     const temp = result.rows[0].saldo;
     // console.log(credentialId)
-    const finalSaldo = parseInt(temp, number) + parseInt(saldo, number);
+    const finalSaldo = parseFloat(temp, number) + parseFloat(saldo, number);
 
     const query1 = {
       text: 'UPDATE users SET saldo = $1 where id = $2',

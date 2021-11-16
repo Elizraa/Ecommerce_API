@@ -45,8 +45,8 @@ class UsersHandler {
       const {
         saldo,
       } = request.payload;
-      const finalSaldo = await this._service.addSaldo (
-       saldo, credentialId,
+      const finalSaldo = await this._service.addSaldo(
+        saldo, credentialId,
       );
 
       const response = h.response({
