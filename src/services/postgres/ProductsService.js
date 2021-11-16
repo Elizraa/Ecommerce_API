@@ -77,7 +77,7 @@ class ProductsService {
     return result.rows[0];
   }
 
-  async getProductByUserId(UserId) {
+  async getProductsByUserId(UserId) {
     const query = {
       text: 'select * from products where user_id = $1',
       values: [UserId],
