@@ -43,17 +43,17 @@ class UsersHandler {
     try {
       const { id: credentialId } = request.auth.credentials;
       const {
-        saldo
+        saldo,
       } = request.payload;
-      const userId = await this._service.addSaldo(
-       saldo, credentialId
+      const finalSaldo = await this._service.addSaldo (
+       saldo, credentialId,
       );
 
       const response = h.response({
         status: 'success',
         message: 'Saldo berhasil ditambahkan',
         data: {
-          userId,
+          finalSaldo,
         },
       });
       response.code(201);

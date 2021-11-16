@@ -1,6 +1,7 @@
 const { nanoid } = require('nanoid');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
+const { number } = require('joi');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 const AuthenticationError = require('../../exceptions/AuthenticationError');
@@ -33,25 +34,23 @@ class UsersService {
     return result.rows[0].id;
   }
 
-  async addSaldo(saldo, credentialId){
+  async addSaldo(saldo, credentialId) {
     const query = {
-      text : 'SELECT saldo FROM users WHERE id = $1',
-      values : [credentialId]
-    }
+      text: 'SELECT saldo FROM users WHERE id = $1',
+      values: [credentialId],
+    };
     const result = await this._pool.query(query);
     const temp = result.rows[0].saldo;
     // console.log(credentialId)
-    console.log(temp)
-    const finalSaldo = temp + saldo
+    const finalSaldo = parseInt(temp, number) + parseInt(saldo, number);
 
-    const query1 ={
-      text : 'UPDATE users SET saldo = $1 where id = $2',
-      values : [finalSaldo, credentialId]
-    }
+    const query1 = {
+      text: 'UPDATE users SET saldo = $1 where id = $2',
+      values: [finalSaldo, credentialId],
+    };
 
-    const result1 = await this._pool.query(query1);
-    return finalSaldo
-
+    await this._pool.query(query1);
+    return finalSaldo;
   }
 
   async verifyNewName(name) {
@@ -93,7 +92,6 @@ class UsersService {
     }
     return result.rows[0];
   }
-  
 
   async getUsersSaldoHighest() {
     const query = {
