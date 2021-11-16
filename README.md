@@ -114,7 +114,7 @@ API project in e-commerce about NFT
 
 ### Get product by ownerId
 	GET
-	/products/{ownerId}
+	/products/seller/{ownerId}
 	return product
 
 ### Get product by category

@@ -9,7 +9,7 @@ class ProductsHandler {
     this.getProductsHandler = this.getProductsHandler.bind(this);
     this.getProductsOnSellHandler = this.getProductsOnSellHandler.bind(this);
     this.getProductByIdHandler = this.getProductByIdHandler.bind(this);
-    this.getProductsBySellerIdHandler = this.getProductsBySellerIdHandler.bind(this);
+    this.getProductsByOwnerIdHandler = this.getProductsByOwnerIdHandler.bind(this);
     this.putProductByIdHandler = this.putProductByIdHandler.bind(this);
     this.deleteProductByIdHandler = this.deleteProductByIdHandler.bind(this);
     this.postUploadImageHandler = this.postUploadImageHandler.bind(this);
@@ -106,10 +106,10 @@ class ProductsHandler {
     }
   }
 
-  async getProductsBySellerIdHandler(request) {
+  async getProductsByOwnerIdHandler(request) {
     try {
-      const { sellerId } = request.params;
-      const product = await this._service.getProductsBySellerId(sellerId);
+      const { ownerId } = request.params;
+      const product = await this._service.getProductsByUserId(ownerId);
       return {
         status: 'success',
         data: {

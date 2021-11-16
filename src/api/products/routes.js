@@ -45,8 +45,8 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/products/seller/{id}',
-    handler: handler.getProductsBySellerIdHandler,
+    path: '/products/owner/{ownerId}',
+    handler: handler.getProductsByOwnerIdHandler,
   },
   {
     method: 'POST',
