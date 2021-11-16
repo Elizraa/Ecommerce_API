@@ -82,7 +82,6 @@ class ProductsService {
       text: 'select * from products where user_id = $1',
       values: [UserId],
     };
-    console.log(UserId);
     const result = await this._pool.query(query);
 
     if (!result.rowCount) {
