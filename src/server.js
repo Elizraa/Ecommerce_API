@@ -71,7 +71,7 @@ const init = async () => {
       plugin: Inert,
     },
   ]);
-
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   // mendefinisikan strategy autentikasi jwt
   server.auth.strategy('ecommerce_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
