@@ -228,5 +228,9 @@ API project in e-commerce about NFT
 	auth = bearer accessToken
 	return products, times data
 
+### Get Most Viewed
+	GET
+	/times/rec
+	return product detail
 
 
