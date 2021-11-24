@@ -76,7 +76,7 @@ class TimesService {
       'SELECT * FROM PRODUCTS P '
       + 'INNER JOIN (SELECT PRODUCT_ID,COUNT(*) FROM TIMES '
       + 'GROUP BY PRODUCT_ID ORDER BY COUNT DESC) AS c '
-      + 'ON P.id = c.product_id ORDER BY COUNT DESC',
+      + 'ON P.id = c.product_id ORDER BY c.COUNT DESC',
     );
     return result.rows;
   }
