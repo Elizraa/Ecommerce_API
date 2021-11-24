@@ -232,5 +232,3 @@ API project in e-commerce about NFT
 	GET
 	/times/rec
 	return product detail
-
-
